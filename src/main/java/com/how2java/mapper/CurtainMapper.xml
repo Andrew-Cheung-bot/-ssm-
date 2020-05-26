@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.how2java.mapper.CurtainMapper">
+	<!--
+		(过期)
+        数据库中有两个表，分别是information_，主码是settime，另外两个属性是tem和humidity
+                             status_,主码是pojo，另外两个属性是Stem和Shumidity
+        其中status_表默认设置有主码value值为curtain，Stem值为0，Shumidity值为0的一栏，
+        所以status_没有相关的addsql   date_fommat(now(),'%m-%d-%H'),其中H大写表示24小时制(00-23),m(00-12),d(00-31),i(00,59)
+    -->
+	<insert id="addCurtainData" parameterType="com.how2java.pojo.Data_Curtain">
+		insert into curtain_data_(settime,tem,humidity,cid) VALUES(date_format(now(),'%m-%d,%H:%i'),#{tem},#{humidity},#{cid})
+	</insert>
+
+	<!--通过时间(mm-dd-hh)以及cid的字符串获取温湿度-->
+	<select id="getCurtainData" parameterType="java.util.Map" resultType="com.how2java.pojo.Data_Curtain">
+		select * from curtain_data_ where settime like #{settime} and cid = #{cid}
+	</select>
+
+	<select id="getCurtain" parameterType="java.lang.Integer" resultType="com.how2java.pojo.Curtain">
+		select * from curtain_ where cid=#{cid}
+	</select>
+
+	<select id="getAllCurtain"  resultType="com.how2java.pojo.Curtain">
+		select * from curtain_
+	</select>
+
+	<update id="updateCurtain" parameterType="com.how2java.pojo.Curtain">
+		 update curtain_ set Stem=#{Stem},Shumidity=#{Shumidity} where cid=#{cid}
+	 </update>
+
+	<update id="updateCurtainState" parameterType="com.how2java.pojo.Curtain">
+		 update curtain_ set state=#{state} where cid=#{cid}
+	 </update>
+
+	<insert id="addCurtain" parameterType="com.how2java.pojo.Curtain">
+		insert into curtain_(cid,Stem,Shumidity,state) values (#{cid},#{Stem},#{Shumidity},#{state})
+	</insert>
+
+	<delete id="deleteCurtain" parameterType="java.lang.Integer">
+		delete from curtain_ where cid = #{cid}
+	</delete>
+</mapper>
+
