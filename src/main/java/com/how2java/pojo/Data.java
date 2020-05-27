@@ -4,9 +4,9 @@ public class Data {
     //记录温湿度的时间(由数据库的now()函数自动填入)
     public String settime;
     //温度
-    public Float tem;
+    public int tem;
     //湿度
-    public Float humidity;
+    public int humidity;
 
     public void setSettime(String settime) {
         this.settime = settime;
@@ -16,20 +16,19 @@ public class Data {
         return settime;
     }
 
-    public void setHumidity(Float humidity) {
-        this.humidity = humidity;
-    }
-
-    public void setTem(Float tem) {
+    public void setTem(int tem) {
         this.tem = tem;
     }
 
-    public Float getHumidity() {
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
+
+    public int getHumidity() {
         return humidity;
     }
 
-    public Float getTem() {
+    public int getTem() {
         return tem;
     }
-
 }
