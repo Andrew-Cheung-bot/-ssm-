@@ -1,4 +1,10 @@
 # Smart-Household-Appliance
+![](https://img.shields.io/badge/JDK-JDK1.8-brightgreen) 
+![](https://img.shields.io/badge/Spring-v4.1.3-brightgreen)
+![](https://img.shields.io/badge/Maven-v3.6.1-brightgreen)
+![](https://img.shields.io/badge/MySql-v5.1.47-blue)
+![](https://img.shields.io/badge/Tomcat-v7.0.103-blue)
+![](https://img.shields.io/badge/Author-Andrew%20Cheung-lightgrey)
 
 #### 介绍
 DGUT smart-household-appliance
