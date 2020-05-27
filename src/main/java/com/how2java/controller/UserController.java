@@ -97,7 +97,7 @@ public class UserController {
             boolean flag = userService.active(code);
             if(flag){
                 //激活成功
-              msg = "激活成功，请点击链接进行登录:http://localhost:8080/ssm/login.html";
+              msg = "激活成功，请点击链接进行登录:http://129.204.232.202:8080/ssm/login.html";
             }else {
                 //激活失败
                 msg = "激活失败，请联系管理员!";
