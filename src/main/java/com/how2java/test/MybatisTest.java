@@ -25,8 +25,8 @@ public class MybatisTest {
         Data_Curtain data= new Data_Curtain();
 
         //data.setSettime("4-12-5");
-        data.setTem(26.2f);
-        data.setHumidity(23.5f);
+        //data.setTem(26.2f);
+        //data.setHumidity(23.5f);
         mapper.addCurtainData(data);
         sqlSession.commit();
        /* List<Data_Curtain> allData = mapper.getAllData();
