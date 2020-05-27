@@ -1,0 +1,3 @@
+#忽略target文件夹
+/target
+/target/*
