@@ -14,7 +14,7 @@
         select * from user_ where code=#{code}
     </select>
     <update id="updateStatus" parameterType="com.how2java.pojo.User">
-        update user_ set state='Y' where  username=#{username}
+        update user_ set activate='Y' where  username=#{username}
     </update>
     <select id="findByUsernameAndPassword"  parameterType="com.how2java.pojo.User" resultType="com.how2java.pojo.User">
         select * from user_ where username=#{username} and pwd=#{pwd}
