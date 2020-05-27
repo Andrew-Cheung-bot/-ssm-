@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class Fan extends Pojo implements Serializable {
     //风扇id
-    private int fid;
+    private String fid;
 
-    public void setFid(int fid) {
-        this.fid = fid;
+    public String getFid() {
+        return fid;
     }
 
-    public int getFid() {
-        return fid;
+    public void setFid(String fid) {
+        this.fid = fid;
     }
 }

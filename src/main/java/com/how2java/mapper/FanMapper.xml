@@ -20,7 +20,7 @@
 		select * from fan_data_ where settime like #{settime} and fid = #{fid}
 	</select>
 
-	<select id="getFan" parameterType="java.lang.Integer" resultType="com.how2java.pojo.Fan">
+	<select id="getFan" parameterType="java.lang.String" resultType="com.how2java.pojo.Fan">
 		select * from fan_ where fid=#{fid}
 	</select>
 
@@ -40,7 +40,7 @@
 		insert into fan_(fid,Stem,Shumidity,state) values (#{fid},#{Stem},#{Shumidity},#{state})
 	</insert>
 
-	<delete id="deleteFan" parameterType="java.lang.Integer">
+	<delete id="deleteFan" parameterType="java.lang.String">
 		delete from fan_ where fid = #{fid}
 	</delete>
 </mapper>

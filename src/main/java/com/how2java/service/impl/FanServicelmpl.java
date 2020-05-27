@@ -26,7 +26,7 @@ public class FanServicelmpl implements FanService {
     }
 
     @Override
-    public Fan getFan(int fid) {
+    public Fan getFan(String fid) {
         return fanMapper.getFan(fid);
     }
 
@@ -47,5 +47,5 @@ public class FanServicelmpl implements FanService {
     public void addFan(Fan fan) {fanMapper.addFan(fan);}
 
     @Override
-    public void deleteFan(int fid){fanMapper.deleteFan(fid);};
+    public void deleteFan(String fid){fanMapper.deleteFan(fid);};
 }

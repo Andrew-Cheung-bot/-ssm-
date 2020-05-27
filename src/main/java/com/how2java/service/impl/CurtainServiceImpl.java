@@ -27,7 +27,7 @@ public class CurtainServiceImpl implements CurtainService {
     }
 
     @Override
-    public Curtain getCurtain(int cid) {
+    public Curtain getCurtain(String cid) {
         return curtainMapper.getCurtain(cid);
     }
 
@@ -48,5 +48,5 @@ public class CurtainServiceImpl implements CurtainService {
     public void addCurtain(Curtain curtain) {curtainMapper.addCurtain(curtain);}
 
     @Override
-    public void deleteCurtain(int cid){curtainMapper.deleteCurtain(cid);};
+    public void deleteCurtain(String cid){curtainMapper.deleteCurtain(cid);};
 }

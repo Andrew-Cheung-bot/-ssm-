@@ -13,7 +13,7 @@ public interface CurtainMapper {
     //获取某一段时间的温湿度
     List<Data_Curtain> getCurtainData(Map param);
     //获取窗帘默认的温湿度值和状态
-    Curtain  getCurtain(int cid);
+    Curtain  getCurtain(String cid);
     //获取所有窗帘温湿度和状态
     List<Curtain>  getAllCurtain();
     //更新窗帘的默认温湿度值
@@ -23,5 +23,5 @@ public interface CurtainMapper {
     //增加窗帘
     void addCurtain(Curtain curtain);
     //删除窗帘
-    void deleteCurtain(int cid);
+    void deleteCurtain(String cid);
 }

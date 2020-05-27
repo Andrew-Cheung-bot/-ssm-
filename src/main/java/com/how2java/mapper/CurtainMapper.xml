@@ -20,7 +20,7 @@
 		select * from curtain_data_ where settime like #{settime} and cid = #{cid}
 	</select>
 
-	<select id="getCurtain" parameterType="java.lang.Integer" resultType="com.how2java.pojo.Curtain">
+	<select id="getCurtain" parameterType="java.lang.String" resultType="com.how2java.pojo.Curtain">
 		select * from curtain_ where cid=#{cid}
 	</select>
 
@@ -40,7 +40,7 @@
 		insert into curtain_(cid,Stem,Shumidity,state) values (#{cid},#{Stem},#{Shumidity},#{state})
 	</insert>
 
-	<delete id="deleteCurtain" parameterType="java.lang.Integer">
+	<delete id="deleteCurtain" parameterType="java.lang.String">
 		delete from curtain_ where cid = #{cid}
 	</delete>
 </mapper>

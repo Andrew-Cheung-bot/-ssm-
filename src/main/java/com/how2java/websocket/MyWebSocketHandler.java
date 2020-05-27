@@ -49,7 +49,7 @@ public class MyWebSocketHandler implements WebSocketHandler{
             //得到Socket通道中的数据并转化为Data对象
             //要有tem，humidity，cid(fid)三个参数
             Data_Curtain curtain_data = new Gson().fromJson(webSocketMessage.getPayload().toString(), Data_Curtain.class);
-            if(curtain_data.getCid()!=0){
+            if(curtain_data.getCid().equals(null)){
                 //将信息保存至数据库
                 try {
                     curtainservice.addCurtainData(curtain_data);

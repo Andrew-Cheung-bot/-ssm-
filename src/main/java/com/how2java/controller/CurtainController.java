@@ -95,15 +95,15 @@ public class CurtainController {
 
         Curtain curtain = new Curtain();
 
-        curtain.setStem(parseObject.getBigDecimal("Stem").floatValue());
-        curtain.setShumidity(parseObject.getBigDecimal("Shumidity").floatValue());
-        curtain.setCid(parseObject.getBigDecimal("cid").intValue());
+        curtain.setStem(parseObject.getString("Stem"));
+        curtain.setShumidity(parseObject.getString("Shumidity"));
+        curtain.setCid(parseObject.getString("cid"));
         curtainService.updateCurtain(curtain);
 
         //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-        Curtain curtain_information = curtainService.getCurtain(parseObject.getBigDecimal("cid").intValue());
+        Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
         //2表示此为修改
-        curtain_information.setAction(2);
+        curtain_information.setAction("2");
         String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_curtain));
@@ -126,14 +126,14 @@ public class CurtainController {
 
         Curtain curtain = new Curtain();
 
-        curtain.setState(parseObject.getBigDecimal("state").intValue());
-        curtain.setCid(parseObject.getBigDecimal("cid").intValue());
+        curtain.setState(parseObject.getString("state"));
+        curtain.setCid(parseObject.getString("cid"));
         curtainService.updateCurtainState(curtain);
 
         //在前台发送setCurtainState的时候，服务器会自动发送数据到硬件
-        Curtain curtain_information = curtainService.getCurtain(parseObject.getBigDecimal("cid").intValue());
+        Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
         //2表示此为修改
-        curtain_information.setAction(2);
+        curtain_information.setAction("2");
         String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_curtain));
@@ -153,7 +153,7 @@ public class CurtainController {
         JSONObject parseObject = jo.parseObject(param); //string转json类型
         System.out.println("这是json类型"+parseObject);
 
-        Curtain curtain = curtainService.getCurtain(parseObject.getBigDecimal("cid").intValue());
+        Curtain curtain = curtainService.getCurtain(parseObject.getString("cid"));
         String string_curtain = JSON.parse(JSON.toJSONString(curtain)).toString();
         System.out.println(JSON.toJSONString(curtain));
 
@@ -189,16 +189,16 @@ public class CurtainController {
 
         Curtain curtain = new Curtain();
 
-        curtain.setStem(parseObject.getBigDecimal("Stem").floatValue());
-        curtain.setShumidity(parseObject.getBigDecimal("Shumidity").floatValue());
-        curtain.setState(0);
-        curtain.setCid(parseObject.getBigDecimal("cid").intValue());
+        curtain.setStem(parseObject.getString("Stem"));
+        curtain.setShumidity(parseObject.getString("Shumidity"));
+        curtain.setState("0");
+        curtain.setCid(parseObject.getString("cid"));
         curtainService.addCurtain(curtain);
 
         //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-        Curtain curtain_information = curtainService.getCurtain(parseObject.getBigDecimal("cid").intValue());
+        Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
         //1表示此为增加
-        curtain_information.setAction(1);
+        curtain_information.setAction("1");
         String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_curtain));
@@ -217,12 +217,12 @@ public class CurtainController {
         System.out.println("这是json类型"+parseObject);
 
 
-        int cid = parseObject.getBigDecimal("cid").intValue();
-        if(cid!=0){
+        String cid = parseObject.getString("cid");
+        if(!cid.equals(null)){
             //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-            Curtain curtain_information = curtainService.getCurtain(parseObject.getBigDecimal("cid").intValue());
+            Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
             //-1表示此为删除
-            curtain_information.setAction(-1);
+            curtain_information.setAction("-1");
             String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
             MyWebSocketHandler send = new MyWebSocketHandler();
             send.sendMessageToUser(123456, new TextMessage(string_curtain));

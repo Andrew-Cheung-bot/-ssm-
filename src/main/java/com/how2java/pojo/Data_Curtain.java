@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class Data_Curtain extends Data implements Serializable {
     //窗帘id
-    private int cid;
+    private String cid;
 
-    public int getCid() {
-        return cid;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
-    public void setCid(int cid) {
-        this.cid = cid;
+    public String getCid() {
+        return cid;
     }
 }

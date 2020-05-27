@@ -70,15 +70,15 @@ public class FanController {
 
         Fan fan = new Fan();
 
-        fan.setStem(parseObject.getBigDecimal("Stem").floatValue());
-        fan.setShumidity(parseObject.getBigDecimal("Shumidity").floatValue());
-        fan.setFid(parseObject.getBigDecimal("fid").intValue());
+        fan.setStem(parseObject.getString("Stem"));
+        fan.setShumidity(parseObject.getString("Shumidity"));
+        fan.setFid(parseObject.getString("fid"));
         fanService.updateFan(fan);
 
         //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-        Fan fan_information = fanService.getFan(parseObject.getBigDecimal("fid").intValue());
+        Fan fan_information = fanService.getFan(parseObject.getString("fid"));
         //2表示此为修改
-        fan_information.setAction(2);
+        fan_information.setAction("2");
         String string_fan = JSON.parse(JSON.toJSONString(fan_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_fan));
@@ -101,14 +101,14 @@ public class FanController {
 
         Fan fan = new Fan();
 
-        fan.setState(parseObject.getBigDecimal("state").intValue());
-        fan.setFid(parseObject.getBigDecimal("fid").intValue());
+        fan.setState(parseObject.getString("state"));
+        fan.setFid(parseObject.getString("fid"));
         fanService.updateFanState(fan);
 
         //在前台发送setCurtainState的时候，服务器会自动发送数据到硬件
-        Fan fan_information = fanService.getFan(parseObject.getBigDecimal("fid").intValue());
+        Fan fan_information = fanService.getFan(parseObject.getString("fid"));
         //2表示此为修改
-        fan_information.setAction(2);
+        fan_information.setAction("2");
         String string_fan = JSON.parse(JSON.toJSONString(fan_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_fan));
@@ -128,7 +128,7 @@ public class FanController {
         JSONObject parseObject = jo.parseObject(param); //string转json类型
         System.out.println("这是json类型" + parseObject);
 
-        Fan curtain = fanService.getFan(parseObject.getBigDecimal("fid").intValue());
+        Fan curtain = fanService.getFan(parseObject.getString("fid"));
         String string_fan = JSON.parse(JSON.toJSONString(curtain)).toString();
 
         return string_fan;
@@ -163,16 +163,16 @@ public class FanController {
 
         Fan fan = new Fan();
 
-        fan.setStem(parseObject.getBigDecimal("Stem").floatValue());
-        fan.setShumidity(parseObject.getBigDecimal("Shumidity").floatValue());
-        fan.setState(0);
-        fan.setFid(parseObject.getBigDecimal("fid").intValue());
+        fan.setStem(parseObject.getString("Stem"));
+        fan.setShumidity(parseObject.getString("Shumidity"));
+        fan.setState("0");
+        fan.setFid(parseObject.getString("fid"));
         fanService.addFan(fan);
 
         //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-        Fan fan_information = fanService.getFan(parseObject.getBigDecimal("fid").intValue());
+        Fan fan_information = fanService.getFan(parseObject.getString("fid"));
         //1表示此为增加
-        fan_information.setAction(1);
+        fan_information.setAction("1");
         String string_fan = JSON.parse(JSON.toJSONString(fan_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_fan));
@@ -191,12 +191,12 @@ public class FanController {
         System.out.println("这是json类型" + parseObject);
 
 
-        int fid = parseObject.getBigDecimal("fid").intValue();
-        if(fid!=0){
+        String fid = parseObject.getString("fid");
+        if(!fid.equals(null)){
             //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-            Fan fan_information = fanService.getFan(parseObject.getBigDecimal("fid").intValue());
+            Fan fan_information = fanService.getFan(parseObject.getString("fid"));
             //-1表示此为删除
-            fan_information.setAction(-1);
+            fan_information.setAction("-1");
             String string_fan = JSON.parse(JSON.toJSONString(fan_information)).toString();
             MyWebSocketHandler send = new MyWebSocketHandler();
             send.sendMessageToUser(123456, new TextMessage(string_fan));

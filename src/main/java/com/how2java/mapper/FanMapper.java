@@ -13,7 +13,7 @@ public interface FanMapper {
     //获取某一段时间的温湿度
     List<Data_Fan> getFanData(Map param);
     //获取风扇默认的温湿度值
-    Fan getFan(int fid);
+    Fan getFan(String fid);
     //获取所有风扇的温湿度值和状态
     List<Fan> getAllFan();
     //更新风扇的默认温湿度值
@@ -23,5 +23,5 @@ public interface FanMapper {
     //增加风扇
     void addFan(Fan fan);
     //删除风扇
-    void deleteFan(int fid);
+    void deleteFan(String fid);
 }
