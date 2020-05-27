@@ -41,10 +41,10 @@ public class UserServiceImpl implements UserService {
 
         //3.激活邮件发送，邮件正文？
 
-       /* String content="<a href='http://129.204.232.202:8080/ssm/User/activeUser?code="+user.getCode()+"'>点击激活【智能家居系统】</a><br/>";
-         content+="或复制链接到浏览器打开:http://129.204.232.202:8080/ssm/User/activeUser?code="+user.getCode();*/
-        String content="<a href='http://localhost:8080/ssm/User/activeUser?code="+user.getCode()+"'>点击激活【智能家居系统】</a><br/>";
-        content+="或复制链接到浏览器打开:http://localhost:8080/ssm/User/activeUser?code="+user.getCode();
+        String content="<a href='http://129.204.232.202:8080/ssm/User/activeUser?code="+user.getCode()+"'>点击激活【智能家居系统】</a><br/>";
+         content+="或复制链接到浏览器打开:http://129.204.232.202:8080/ssm/User/activeUser?code="+user.getCode();
+        /*String content="<a href='http://localhost:8080/ssm/User/activeUser?code="+user.getCode()+"'>点击激活【智能家居系统】</a><br/>";
+        content+="或复制链接到浏览器打开:http://localhost:8080/ssm/User/activeUser?code="+user.getCode();*/
 
         MailUtils.sendMail(user.getEmail(),content,"激活邮件");
 
