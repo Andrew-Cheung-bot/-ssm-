@@ -24,9 +24,3 @@ DGUT smart-household-appliance
 1.  xxxx
 2.  xxxx
 3.  xxxx
-
-
-####test00100
-1.xxxxx
-2.xxxxxx
-3.xxxxx
