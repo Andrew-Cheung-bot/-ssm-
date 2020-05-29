@@ -103,7 +103,7 @@ public class CurtainController {
         //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
         Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
         //2表示此为修改
-        curtain_information.setAction("2");
+        curtain_information.setAction("3");
         String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
         MyWebSocketHandler send = new MyWebSocketHandler();
         send.sendMessageToUser(123456, new TextMessage(string_curtain));
@@ -222,7 +222,7 @@ public class CurtainController {
             //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
             Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
             //-1表示此为删除
-            curtain_information.setAction("3");
+            curtain_information.setAction("4");
             String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
             MyWebSocketHandler send = new MyWebSocketHandler();
             send.sendMessageToUser(123456, new TextMessage(string_curtain));
