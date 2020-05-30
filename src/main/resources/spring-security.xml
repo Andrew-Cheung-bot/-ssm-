@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <http auto-config="true" use-expressions="false">
+        <!--intercept-url定义一个过滤规则 pattern表示对哪些url进行权限控制 access表示在请求对应的url时要什么权限
+        默认配置时它应该是一个以逗号分隔的角色列表，请求的用户只需拥有其中的一个角色就能成功访问对应的url-->
+        <intercept-url pattern="/**" access="ROLE_USER" />
+        <!--auto-config配置后，不需要在配置下面信息 <security:form-login /> 定义登录表单信息
+        <security:http-basic /> <security:logout />
+        <security:form-login />
+        <security:logout /> -->
+    </http>
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="user1" password="1234" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>
