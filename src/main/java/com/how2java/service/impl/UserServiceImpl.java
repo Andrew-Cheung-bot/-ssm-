@@ -5,15 +5,24 @@ import com.how2java.pojo.User;
 import com.how2java.service.UserService;
 import com.how2java.util.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * @Auther:胡坚涛
  * @Data:2020/05/25/21:10
  */
-@Service
+@Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
@@ -71,11 +80,34 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 登录账户
-     * @param user
+     * @param //user
      * @return
      */
+    /*
     @Override
     public User login(User user) {
         return userMapper.findByUsernameAndPassword(user);
+    }
+    */
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws AuthenticationException {
+            User user = userMapper.findByUsername(username);
+            org.springframework.security.core.userdetails.User security_user =
+                    new org.springframework.security.core.userdetails.User(
+                            user.getUsername(),
+                            user.getPassword(),
+                            (user.getActivate().equals("Y")) ? true : false,
+                            true,
+                            true,
+                            true,
+                            getAuthority());
+            return security_user;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthority(){
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return list;
     }
 }

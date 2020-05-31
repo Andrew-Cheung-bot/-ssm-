@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.how2java.pojo.Fan;
-import com.how2java.pojo.User;
+import com.how2java.pojo.*;
 import com.how2java.service.CurtainService;
 import com.how2java.service.UserService;
 import com.how2java.service.impl.UserServiceImpl;
@@ -18,12 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONArray;
-import com.how2java.pojo.Curtain;
-import com.how2java.pojo.Data_Curtain;
 import com.how2java.service.CurtainService;
 import com.alibaba.fastjson.JSONObject;
 
 import com.how2java.websocket.MyWebSocketHandler;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.TextMessage;
 import sun.applet.resources.MsgAppletViewer;
 
@@ -65,9 +63,9 @@ public class UserController {
         }
         User user = new User();
         user.setUsername(user_get.getUsername());
-        user.setPwd(user_get.getPwd());
+        user.setPassword(user_get.getPassword());
         user.setEmail(user_get.getEmail());
-
+        user.setRolename("USER");
         boolean flag = userService.regist(user);
         ResultInfo info = new ResultInfo();
         //响应结果
@@ -111,12 +109,13 @@ public class UserController {
     /**
      * 登录
      */
-    @RequestMapping(value = "/loginUser",method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/loginUser",method = RequestMethod.POST)
+    //@ResponseBody
+    /*
     public String loginUser(@RequestBody User user_get){
         User user = new User();
         user.setUsername(user_get.getUsername());
-        user.setPwd(user_get.getPwd());
+        user.setPassword(user_get.getPassword());
         User u = userService.login(user);
         ResultInfo info = new ResultInfo();
         //4.判断用户对象是否为null
@@ -140,5 +139,15 @@ public class UserController {
         String json = JSON.toJSONString(info);
         return json;
     }
+    */
 
+    /**
+     * 登录
+     */
+    //@RequestMapping(value = "/loginUser",method = RequestMethod.POST)
+    //@ResponseBody
+    public ModelAndView loginUser(){
+        ModelAndView mv = new ModelAndView("redirect:/login.html");
+        return mv;
+    }
 }

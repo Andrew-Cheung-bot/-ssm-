@@ -15,5 +15,4 @@ public interface UserMapper {
 
     void updateStatus(User user);
 
-    User findByUsernameAndPassword(User user);
 }

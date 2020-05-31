@@ -8,7 +8,7 @@
         select * from user_ where username=#{username}
     </select>
     <insert id="addUser" parameterType="User">
-        insert into user_(username,pwd,email,activate,code) values (#{username},#{pwd},#{email},#{activate},#{code})
+        insert into user_(username,password,email,activate,code) values (#{username},#{password},#{email},#{activate},#{code})
     </insert>
     <select id="findByCode" resultType="User">
         select * from user_ where code=#{code}
@@ -16,7 +16,5 @@
     <update id="updateStatus" parameterType="com.how2java.pojo.User">
         update user_ set activate='Y' where  username=#{username}
     </update>
-    <select id="findByUsernameAndPassword"  parameterType="com.how2java.pojo.User" resultType="com.how2java.pojo.User">
-        select * from user_ where username=#{username} and pwd=#{pwd}
-    </select>
+
 </mapper>

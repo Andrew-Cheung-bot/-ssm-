@@ -1,19 +1,21 @@
 package com.how2java.pojo;
 
+import java.util.List;
+
 public class User {
 
     private String username;
     //用户姓名
     private String email;
     //用户邮箱
-    private String pwd;
+    private String password;
     //用户密码
     private String activate;
     //激活状态，Y代表激活，N代表未激活
     private String code;
     //激活码（要求唯一）
-    private String permission;
-    //权限
+    private String rolename;
+
     public String getEmail() {
         return email;
     }
@@ -31,12 +33,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPwd() {
-        return pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public String getPassword() {
+        return password;
     }
 
     public String getActivate() {
@@ -55,11 +57,11 @@ public class User {
         this.code = code;
     }
 
-    public String getPermission() {
-        return permission;
+    public String getRolename() {
+        return rolename;
     }
 
-    public void setPermission(String permission) {
-        this.permission = permission;
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
     }
 }

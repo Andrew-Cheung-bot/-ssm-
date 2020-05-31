@@ -8,20 +8,46 @@
     http://www.springframework.org/schema/security/spring-security.xsd
     http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <http auto-config="true" use-expressions="false">
+
+    <!--不拦截的资源-->
+    <http pattern="/login.html*" security="none" />
+    <http pattern="/User/loginUser" security="none" />
+    <http pattern="/User/registUser*" security="none" />
+    <http pattern="/user/register_ok.html" security="none" />
+    <http pattern="/user/register.html" security="none" />
+    <http pattern="/static/**" security="none" />
+    <http pattern="/checkCode*" security="none" />
+    <!--
+        auto-config 是否使用框架默认提供的登录界面
+        use-expressions  是否使用SPEL表达式
+    -->
+    <http auto-config="true" use-expressions="false" >
         <!--intercept-url定义一个过滤规则 pattern表示对哪些url进行权限控制 access表示在请求对应的url时要什么权限
         默认配置时它应该是一个以逗号分隔的角色列表，请求的用户只需拥有其中的一个角色就能成功访问对应的url-->
-        <intercept-url pattern="/**" access="ROLE_USER" />
+        <intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN" />
         <!--auto-config配置后，不需要在配置下面信息 <security:form-login /> 定义登录表单信息
-        <security:http-basic /> <security:logout />
-        <security:form-login />
-        <security:logout /> -->
+        <security:http-basic /> <security:logout />-->
+        <!--form-login属性详解
+        1. login-page 自定义登录页url,默认为/login
+        2. login-processing-url 登录请求拦截的url,也就是form表单提交时指定的action
+        3. default-target-url 默认登录成功后跳转的url
+        4. always-use-default-target 是否总是使用默认的登录成功后跳转url
+        5. authentication-failure-url 登录失败后跳转的url
+        6. username-parameter 用户名的请求字段 默认为userName
+        7. password-parameter 密码的请求字段 默认为password
+        8. authentication-success-handler-ref 指向一个AuthenticationSuccessHandler用于处理认证成功的请求,不能和default-target-url还有always-use-default-target同时使用
+        -->
+        <form-login
+                login-page="/login.html"
+                login-processing-url="/login/"
+                default-target-url="/login/login_success.html"
+                authentication-failure-url="/login.html?error=true"
+        />
+        <logout/>
+        <csrf disabled="true" />
     </http>
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="user1" password="1234" authorities="ROLE_USER" />
-            </user-service>
+        <authentication-provider user-service-ref="userService">
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

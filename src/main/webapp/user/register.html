@@ -58,7 +58,7 @@
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="密码:长度5到20位" id="pwd" name="pwd">
+                <input type="password" class="form-control" placeholder="密码:长度5到20位" id="password" name="password">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -146,7 +146,7 @@
     //校验密码
     function checkPassword() {
         //1.获取密码值
-        var password = $("#pwd").val();
+        var password = $("#password").val();
         //2.定义正则
         var reg_password = /^\w{5,20}$/;
 
@@ -154,10 +154,10 @@
         var flag = reg_password.test(password);
         if (flag) {
             //密码合法
-            $("#pwd").css("border", "");
+            $("#password").css("border", "");
         } else {
             //密码非法,加一个红色边框
-            $("#pwd").css("border", "1px solid red");
+            $("#password").css("border", "1px solid red");
         }
 
         return flag;
@@ -165,7 +165,7 @@
 
     //检验确认密码和密码是否一致
     function checkrPassword() {
-        var password = $("#pwd").val();
+        var password = $("#password").val();
         var rPassword = $("#rPassword").val();
 
 
@@ -211,7 +211,7 @@
                     traditional: true,
                     data:JSON.stringify({
                         username:$("#username").val(),
-                        pwd:$("#pwd").val(),
+                        password:$("#password").val(),
                         email:$("#email").val(),
                     }),
                     success: function (data) {

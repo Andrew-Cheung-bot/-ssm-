@@ -59,7 +59,7 @@
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="密码" id="pwd" name="pwd">
+                    <input type="password" class="form-control" placeholder="密码" id="password" name="password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
@@ -111,7 +111,7 @@
         //校验密码
         function checkPassword() {
             //1.获取密码值
-            var password = $("#pwd").val();
+            var password = $("#password").val();
             //2.定义正则
             var reg_password = /^\w{5,20}$/;
 
@@ -119,41 +119,42 @@
             var flag = reg_password.test(password);
             if (flag) {
                 //密码合法
-                $("#pwd").css("border", "");
+                $("#password").css("border", "");
             } else {
                 //密码非法,加一个红色边框
-                $("#pwd").css("border", "1px solid red");
+                $("#password").css("border", "1px solid red");
             }
 
             return flag;
         }
 
-        //1.给登录按钮绑定单击事件
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            if (url.indexOf("?") != -1) {    //判断是否有参数
+                var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+                strs = str.split("=");   //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
+                return strs[1];
+            }
+        }
+
+            //1.给登录按钮绑定单击事件
         $("#btn_sub").click(function () {
             if(checkUsername() && checkPassword() ){
                 //2.发送ajax请求，提交表单数据
                 $.post({
-                    url:"/ssm/User/loginUser",
-                    dataType:"json",
-                    contentType:'application/json;charset=utf-8',
-                    data:JSON.stringify({
+                    url:"/ssm/login/",
+                    //dataType:"json",
+                    //contentType:'application/json;charset=utf-8',
+                    data:{
                         username: $("#username").val(),
-                        pwd: $("#pwd").val()
-                    }),
+                        password: $("#password").val()
+                    },
                     success: function (data) {
-                        //data : {flag:false,errorMsg:''}
-                        /*alert("111");*/
-                        if (data.flag) {
-                            //登录成功
-                            /*   location.href="index.html";*/
-                            alert("登录成功");
-                        } else {
-                            //登录失败
-                            $("#errorMsg").html(data.errorMsg);
-                            alert(data.errorMsg);
+                        //window.location.href="/ssm/login/login_success.html"
+                        if(GetRequest() == "true"){
+                            $("#errorMsg").html("请检查密码和激活状态!");
                         }
                     },
-
                 });
             }
             //2.不让页面跳转
