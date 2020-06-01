@@ -39,7 +39,7 @@
     </script>
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" >
     <div class="login-box">
         <div class="login-logo">
 
@@ -52,7 +52,7 @@
         <div class="login-box-body">
             <p class="login-box-msg">登录系统</p>
             <!--登录错误提示消息-->
-            <div id="errorMsg" style="color:red;text-align: center"></div>
+            <div id="errorMsg" style="color:red;text-align: center" ></div>
             <form id="loginForm" method="post">
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" placeholder="全名:长度3到13位（不包含中文）" id="username" name="username">
@@ -128,14 +128,17 @@
             return flag;
         }
 
-        function GetRequest() {
+        function getRequest() {
             var url = location.search; //获取url中"?"符后的字串
             if (url.indexOf("?") != -1) {    //判断是否有参数
                 var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
                 strs = str.split("=");   //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
-                return strs[1];
+                if (strs[1] == "true"){
+                    $("#errorMsg").html("请检查密码和激活状态!");
+                }
             }
         }
+        window.onload = getRequest;
 
             //1.给登录按钮绑定单击事件
         $("#btn_sub").click(function () {
@@ -150,11 +153,13 @@
                         password: $("#password").val()
                     },
                     success: function (data) {
-                        //window.location.href="/ssm/login/login_success.html"
-                        if(GetRequest() == "true"){
-                            $("#errorMsg").html("请检查密码和激活状态!");
-                        }
+                        console.log(data)
                     },
+                    complete:function (jqXHR) {
+                        var url = "/ssm" +jqXHR.getResponseHeader("location")
+                        console.log(url)
+                        window.location.href=url
+                    }
                 });
             }
             //2.不让页面跳转

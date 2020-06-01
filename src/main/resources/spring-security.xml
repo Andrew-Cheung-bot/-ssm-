@@ -21,10 +21,12 @@
         auto-config 是否使用框架默认提供的登录界面
         use-expressions  是否使用SPEL表达式
     -->
-    <http auto-config="true" use-expressions="false" >
+    <beans:bean id="LoginAuthenticationSuccessHandler" class="com.how2java.security.reconstruct.LoginAuthenticationSuccessHandler" />
+    <beans:bean id="LoginAuthenticationFailureHandler" class="com.how2java.security.reconstruct.LoginAuthenticationFailureHandler" />
+    <http auto-config="true" use-expressions="true" >
         <!--intercept-url定义一个过滤规则 pattern表示对哪些url进行权限控制 access表示在请求对应的url时要什么权限
         默认配置时它应该是一个以逗号分隔的角色列表，请求的用户只需拥有其中的一个角色就能成功访问对应的url-->
-        <intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN" />
+        <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <!--auto-config配置后，不需要在配置下面信息 <security:form-login /> 定义登录表单信息
         <security:http-basic /> <security:logout />-->
         <!--form-login属性详解
@@ -38,10 +40,12 @@
         8. authentication-success-handler-ref 指向一个AuthenticationSuccessHandler用于处理认证成功的请求,不能和default-target-url还有always-use-default-target同时使用
         -->
         <form-login
+                authentication-success-handler-ref="LoginAuthenticationSuccessHandler"
+                authentication-failure-handler-ref="LoginAuthenticationFailureHandler"
                 login-page="/login.html"
                 login-processing-url="/login/"
-                default-target-url="/login/login_success.html"
                 authentication-failure-url="/login.html?error=true"
+
         />
         <logout/>
         <csrf disabled="true" />

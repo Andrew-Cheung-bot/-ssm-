@@ -56,7 +56,7 @@ public class UserController {
             ResultInfo info = new ResultInfo();
             //注册失败
             info.setFlag(false);
-            info.setErrorMsg("验证码错误,请重新输入验证码");
+            info.setErrorMsg("Check Code ERROR!");
             //将info对象序列化为json
             String json = JSON.toJSONString(info);
             return json;
@@ -75,7 +75,7 @@ public class UserController {
         }else {
             //注册失败
             info.setFlag(false);
-            info.setErrorMsg("用户名已存在,注册失败,请重新注册");
+            info.setErrorMsg("username exist! Please change your username");
         }
         //将info对象序列化为json
         String json = JSON.toJSONString(info);
