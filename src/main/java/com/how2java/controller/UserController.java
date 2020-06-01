@@ -49,8 +49,6 @@ public class UserController {
         //验证校验
         //从sesion中获取验证码
         String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
-        System.out.println(checkcode_server);
-        System.out.println(check);
         //session.removeAttribute("CHECKCODE_SERVER");//为了保证验证码只能使用一次
         //比较
         if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check)){
@@ -88,6 +86,8 @@ public class UserController {
         String json = JSON.toJSONString(info);
         return json;
     }
+
+
 
 
     /**

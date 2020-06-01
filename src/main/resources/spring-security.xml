@@ -22,10 +22,27 @@
         auto-config 是否使用框架默认提供的登录界面
         use-expressions  是否使用SPEL表达式
     -->
+    <beans:bean id="CustomUsernamePasswordAuthenticationFilter" class="com.how2java.security.reconstruct.CustomUsernamePasswordAuthenticationFilter">
+        <!-- 登录提交处理 -->
+        <beans:property name="filterProcessesUrl" value="/login/"/>
+        <!-- 登录成功跳转 -->
+        <beans:property name="authenticationSuccessHandler" ref="LoginAuthenticationSuccessHandler"/>
+        <!-- 设置登录失败的网址 -->
+        <beans:property name="authenticationFailureHandler" ref="LoginAuthenticationFailureHandler"/>
+        <!-- 用户拥有权限 -->
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <!--登录页面参数-->
+        <beans:property name="usernameParameter" value="username"/>
+        <beans:property name="passwordParameter" value="password"/>
+
+    </beans:bean>
+    <beans:bean id="MyAuthorizedEntryPoint" class="com.how2java.security.reconstruct.MyAuthorizedEntryPoint" />
     <beans:bean id="LoginAuthenticationSuccessHandler" class="com.how2java.security.reconstruct.LoginAuthenticationSuccessHandler" />
     <beans:bean id="LoginAuthenticationFailureHandler" class="com.how2java.security.reconstruct.LoginAuthenticationFailureHandler" />
     <beans:bean id="BCryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-    <http auto-config="true" use-expressions="true" >
+    <http auto-config="false" use-expressions="true" entry-point-ref="MyAuthorizedEntryPoint">
+        <!--JSON格式数据-->
+        <custom-filter ref="CustomUsernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
         <!--intercept-url定义一个过滤规则 pattern表示对哪些url进行权限控制 access表示在请求对应的url时要什么权限
         默认配置时它应该是一个以逗号分隔的角色列表，请求的用户只需拥有其中的一个角色就能成功访问对应的url-->
         <intercept-url pattern="/Curtain/addCurtain" access="hasRole('ROLE_ADMIN')" />
@@ -45,16 +62,16 @@
         7. password-parameter 密码的请求字段 默认为password
         8. authentication-success-handler-ref 指向一个AuthenticationSuccessHandler用于处理认证成功的请求,不能和default-target-url还有always-use-default-target同时使用
         -->
-        <form-login
+        <!--<form-login
                 authentication-success-handler-ref="LoginAuthenticationSuccessHandler"
                 authentication-failure-handler-ref="LoginAuthenticationFailureHandler"
                 login-page="/login.html"
                 login-processing-url="/login/"
-        />
-        <logout/>
+        />-->
         <csrf disabled="true" />
     </http>
-    <authentication-manager>
+
+    <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="BCryptEncoder" />
         </authentication-provider>
