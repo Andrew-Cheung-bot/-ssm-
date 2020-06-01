@@ -61,6 +61,31 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 修改用户密码
+     * @param user
+     * @return
+     */
+    /*
+    @Override
+    public boolean update(User user) {
+        User u=null;
+        u=userMapper.findByUsername(user.getUsername());
+        //判断数据库中是否存在用户名
+        if(u==null){
+            //用户名存在，修改失败
+            return false;
+        }
+        userMapper.updateUser(u);
+
+        String content= "您的用户名为"+user.getUsername()+"的账号密码已经变更，请确认是否为正常改动!";
+        MailUtils.sendMail(u.getEmail(),content,"相关账号密码发生修改");
+
+        return true;
+    }
+    */
+
+
+    /**
      * 激活用户
      * @param code
      * @return
@@ -101,13 +126,13 @@ public class UserServiceImpl implements UserService {
                             true,
                             true,
                             true,
-                            getAuthority());
+                            getAuthority(user));
             return security_user;
     }
 
-    public List<SimpleGrantedAuthority> getAuthority(){
+    public List<SimpleGrantedAuthority> getAuthority(User user){
         List<SimpleGrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority("ROLE_USER"));
+        list.add(new SimpleGrantedAuthority("ROLE_"+user.getRolename()));
         return list;
     }
 }

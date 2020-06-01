@@ -82,6 +82,46 @@ public class UserController {
         return json;
     }
 
+
+    /**
+     * 注册用户
+     * @param session
+     * @return
+     */
+    /*
+    @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateUser(HttpSession session,@RequestBody String param ){
+
+        JSONObject jo=new JSONObject();
+        JSONObject parseObject = jo.parseObject(param); //string转json类型
+        System.out.println(parseObject);
+
+        User user = new User();
+        user.setUsername(parseObject.getString("username"));
+        user.setPassword(parseObject.getString("changepassword"));
+
+        boolean flag = userService.update(user);
+        ResultInfo info = new ResultInfo();
+        //响应结果
+        if(flag){
+            //注册成功
+            info.setFlag(true);
+        }else {
+            //注册失败
+            info.setFlag(false);
+            info.setErrorMsg("chang password failure!");
+        }
+        //将info对象序列化为json
+        String json = JSON.toJSONString(info);
+        return json;
+    }
+    */
+
+
+
+
+
     /**
      * 激活
      * @param code

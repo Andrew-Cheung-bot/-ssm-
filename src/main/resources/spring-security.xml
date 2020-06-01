@@ -13,8 +13,8 @@
     <http pattern="/login.html*" security="none" />
     <http pattern="/User/loginUser" security="none" />
     <http pattern="/User/registUser*" security="none" />
-    <http pattern="/user/register_ok.html" security="none" />
-    <http pattern="/user/register.html" security="none" />
+    <http pattern="/User/updateUser" security="none" />
+    <http pattern="/user/**" security="none" />
     <http pattern="/static/**" security="none" />
     <http pattern="/checkCode*" security="none" />
     <!--
@@ -26,6 +26,10 @@
     <http auto-config="true" use-expressions="true" >
         <!--intercept-url定义一个过滤规则 pattern表示对哪些url进行权限控制 access表示在请求对应的url时要什么权限
         默认配置时它应该是一个以逗号分隔的角色列表，请求的用户只需拥有其中的一个角色就能成功访问对应的url-->
+        <intercept-url pattern="/Curtain/addCurtain" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/Curtain/deleteCurtain" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/Fan/addFan" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/Fan/deleteFan" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <!--auto-config配置后，不需要在配置下面信息 <security:form-login /> 定义登录表单信息
         <security:http-basic /> <security:logout />-->

@@ -8,7 +8,7 @@
         select * from user_ where username=#{username}
     </select>
     <insert id="addUser" parameterType="User">
-        insert into user_(username,password,email,activate,code) values (#{username},#{password},#{email},#{activate},#{code})
+        insert into user_(username,password,email,activate,code,rolename) values (#{username},#{password},#{email},#{activate},#{code},#{rolename})
     </insert>
     <select id="findByCode" resultType="User">
         select * from user_ where code=#{code}

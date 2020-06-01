@@ -15,4 +15,6 @@ public interface UserMapper {
 
     void updateStatus(User user);
 
+    //void updateUser(User user);
+
 }

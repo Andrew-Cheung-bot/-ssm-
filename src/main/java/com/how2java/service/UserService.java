@@ -13,6 +13,8 @@ public interface UserService extends UserDetailsService {
 
     boolean active(String code);
 
+    //boolean update(User user);
+
     //User login(User user);
 
 }
