@@ -23,6 +23,7 @@
     -->
     <beans:bean id="LoginAuthenticationSuccessHandler" class="com.how2java.security.reconstruct.LoginAuthenticationSuccessHandler" />
     <beans:bean id="LoginAuthenticationFailureHandler" class="com.how2java.security.reconstruct.LoginAuthenticationFailureHandler" />
+    <beans:bean id="BCryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
     <http auto-config="true" use-expressions="true" >
         <!--intercept-url定义一个过滤规则 pattern表示对哪些url进行权限控制 access表示在请求对应的url时要什么权限
         默认配置时它应该是一个以逗号分隔的角色列表，请求的用户只需拥有其中的一个角色就能成功访问对应的url-->
@@ -54,6 +55,7 @@
     </http>
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
+            <password-encoder ref="BCryptEncoder" />
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

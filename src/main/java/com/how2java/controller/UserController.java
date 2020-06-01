@@ -13,6 +13,8 @@ import com.how2java.service.impl.UserServiceImpl;
 import com.how2java.util.MailUtils;
 import com.how2java.util.pojo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,7 +65,12 @@ public class UserController {
         }
         User user = new User();
         user.setUsername(user_get.getUsername());
-        user.setPassword(user_get.getPassword());
+
+        //使用bcrypt加密
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode(user_get.getPassword());
+        //放入经过加密的密码
+        user.setPassword(password);
         user.setEmail(user_get.getEmail());
         user.setRolename("USER");
         boolean flag = userService.regist(user);
@@ -84,43 +91,44 @@ public class UserController {
 
 
     /**
-     * 注册用户
+     * 修改用户密码
      * @param session
      * @return
      */
-    /*
     @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
     @ResponseBody
     public String updateUser(HttpSession session,@RequestBody String param ){
 
         JSONObject jo=new JSONObject();
         JSONObject parseObject = jo.parseObject(param); //string转json类型
-        System.out.println(parseObject);
 
         User user = new User();
         user.setUsername(parseObject.getString("username"));
         user.setPassword(parseObject.getString("changepassword"));
 
-        boolean flag = userService.update(user);
+        UserDetails userDetails = userService.loadUserByUsername(parseObject.getString("username"));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         ResultInfo info = new ResultInfo();
-        //响应结果
-        if(flag){
-            //注册成功
-            info.setFlag(true);
-        }else {
+        if(passwordEncoder.matches(parseObject.getString("password"),userDetails.getPassword())){
+            boolean flag = userService.update(user);
+            //响应结果
+            if(flag){
+                //注册成功
+                info.setFlag(true);
+            }else {
+                //注册失败
+                info.setFlag(false);
+                info.setErrorMsg("chang password failure!");
+            }
+        }else{
             //注册失败
             info.setFlag(false);
-            info.setErrorMsg("chang password failure!");
+            info.setErrorMsg("old password error!");
         }
         //将info对象序列化为json
         String json = JSON.toJSONString(info);
         return json;
     }
-    */
-
-
-
-
 
     /**
      * 激活
@@ -181,13 +189,4 @@ public class UserController {
     }
     */
 
-    /**
-     * 登录
-     */
-    //@RequestMapping(value = "/loginUser",method = RequestMethod.POST)
-    //@ResponseBody
-    public ModelAndView loginUser(){
-        ModelAndView mv = new ModelAndView("redirect:/login.html");
-        return mv;
-    }
 }

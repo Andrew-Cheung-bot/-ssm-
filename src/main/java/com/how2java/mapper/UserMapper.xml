@@ -10,6 +10,9 @@
     <insert id="addUser" parameterType="User">
         insert into user_(username,password,email,activate,code,rolename) values (#{username},#{password},#{email},#{activate},#{code},#{rolename})
     </insert>
+    <update id="updateUser" parameterType="com.how2java.pojo.User">
+        update user_ set password=#{password} where  username=#{username}
+    </update>
     <select id="findByCode" resultType="User">
         select * from user_ where code=#{code}
     </select>

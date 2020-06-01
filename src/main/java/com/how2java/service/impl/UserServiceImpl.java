@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +66,6 @@ public class UserServiceImpl implements UserService {
      * @param user
      * @return
      */
-    /*
     @Override
     public boolean update(User user) {
         User u=null;
@@ -75,6 +75,11 @@ public class UserServiceImpl implements UserService {
             //用户名存在，修改失败
             return false;
         }
+        //使用bcrypt加密
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        u.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //放入经过加密的密码
         userMapper.updateUser(u);
 
         String content= "您的用户名为"+user.getUsername()+"的账号密码已经变更，请确认是否为正常改动!";
@@ -82,7 +87,6 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
-    */
 
 
     /**
