@@ -11,6 +11,7 @@
 
     <!--不拦截的资源-->
     <http pattern="/login.html*" security="none" />
+    <http pattern="/User/activeUser*" security="none" />
     <http pattern="/User/loginUser" security="none" />
     <http pattern="/User/registUser*" security="none" />
     <http pattern="/User/updateUser" security="none" />
