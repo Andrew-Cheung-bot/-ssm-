@@ -44,8 +44,6 @@
                 authentication-failure-handler-ref="LoginAuthenticationFailureHandler"
                 login-page="/login.html"
                 login-processing-url="/login/"
-                authentication-failure-url="/login.html?error=true"
-
         />
         <logout/>
         <csrf disabled="true" />
