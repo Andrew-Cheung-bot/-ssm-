@@ -22,7 +22,7 @@
         auto-config 是否使用框架默认提供的登录界面
         use-expressions  是否使用SPEL表达式
     -->
-    <beans:bean id="CustomUsernamePasswordAuthenticationFilter" class="com.how2java.security.reconstruct.CustomUsernamePasswordAuthenticationFilter">
+    <beans:bean id="CustomUsernamePasswordAuthenticationFilter" class="com.smarthousehold.security.reconstruct.CustomUsernamePasswordAuthenticationFilter">
         <!-- 登录提交处理 -->
         <beans:property name="filterProcessesUrl" value="/login/"/>
         <!-- 登录成功跳转 -->
@@ -36,9 +36,9 @@
         <beans:property name="passwordParameter" value="password"/>
 
     </beans:bean>
-    <beans:bean id="MyAuthorizedEntryPoint" class="com.how2java.security.reconstruct.MyAuthorizedEntryPoint" />
-    <beans:bean id="LoginAuthenticationSuccessHandler" class="com.how2java.security.reconstruct.LoginAuthenticationSuccessHandler" />
-    <beans:bean id="LoginAuthenticationFailureHandler" class="com.how2java.security.reconstruct.LoginAuthenticationFailureHandler" />
+    <beans:bean id="MyAuthorizedEntryPoint" class="com.smarthousehold.security.reconstruct.MyAuthorizedEntryPoint" />
+    <beans:bean id="LoginAuthenticationSuccessHandler" class="com.smarthousehold.security.reconstruct.LoginAuthenticationSuccessHandler" />
+    <beans:bean id="LoginAuthenticationFailureHandler" class="com.smarthousehold.security.reconstruct.LoginAuthenticationFailureHandler" />
     <beans:bean id="BCryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
     <http auto-config="false" use-expressions="true" entry-point-ref="MyAuthorizedEntryPoint">
         <!--JSON格式数据-->

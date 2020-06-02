@@ -17,7 +17,7 @@
 
    <context:annotation-config />
 	<import resource="classpath:spring-security.xml" />
-	<context:component-scan base-package="com.how2java.service" />
+	<context:component-scan base-package="com.smarthousehold.service" />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
 	  <property name="driverClassName">  
@@ -38,9 +38,9 @@
 
 	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="typeAliasesPackage" value="com.how2java.pojo" />
+		<property name="typeAliasesPackage" value="com.smarthousehold.pojo" />
 		<property name="dataSource" ref="dataSource"/>
-		<property name="mapperLocations" value="classpath:com/how2java/mapper/*.xml"/>
+		<property name="mapperLocations" value="classpath:com/smarthousehold/mapper/*.xml"/>
 		<property name="plugins">
 		    <array>
 		      <bean class="com.github.pagehelper.PageInterceptor">
@@ -55,7 +55,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.how2java.mapper"/>
+		<property name="basePackage" value="com.smarthousehold.mapper"/>
 	</bean>
 
 	<!-- 事务管理器 -->
@@ -82,7 +82,7 @@
 	<!-- 切面 -->
 	<aop:config>
 		<aop:advisor advice-ref="txAdvice"
-					 pointcut="execution(* com.how2java.service.*.*(..))" />
+					 pointcut="execution(* com.smarthousehold.service.*.*(..))" />
 	</aop:config>
 
 </beans>
