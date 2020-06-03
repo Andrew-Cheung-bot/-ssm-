@@ -1,6 +1,7 @@
 package com.smarthousehold.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,7 @@ public class CurtainController {
     //无需参数
     @RequestMapping(value="/getAllCurtain",method=RequestMethod.GET,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String getAllCurtain() {
+    public String getAllCurtain(Principal principal) {
 
         List<Curtain> allcurtain = curtainService.getAllCurtain();
 

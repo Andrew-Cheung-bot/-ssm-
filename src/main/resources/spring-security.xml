@@ -69,6 +69,7 @@
                 login-processing-url="/login/"
         />-->
         <csrf disabled="true" />
+        <logout logout-url="/logout" logout-success-url="/login.html"/>
     </http>
 
     <authentication-manager alias="authenticationManager">

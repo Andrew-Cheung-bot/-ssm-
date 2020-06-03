@@ -14,7 +14,7 @@ public class LoginAuthenticationSuccessHandler  implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        httpServletResponse.setHeader("location","/main/login_success.html");
+        httpServletResponse.setHeader("location","/main/all-admin-index.html");
     }
 
     /*
