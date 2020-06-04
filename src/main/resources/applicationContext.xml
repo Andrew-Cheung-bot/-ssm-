@@ -31,8 +31,8 @@
 	      <value>root</value>  
 	  </property>  
 	  <property name="password">  
-	      <value>NewPassZCC</value>
-		 <!-- <value>123456</value>-->
+	     <!-- <value>NewPassZCC</value>-->
+		  <value>123456</value>
 	  </property>  	
 	</bean>
 
@@ -42,15 +42,17 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath:com/smarthousehold/mapper/*.xml"/>
 		<property name="plugins">
-		    <array>
-		      <bean class="com.github.pagehelper.PageInterceptor">
-		        <property name="properties">
-		          <!--使用下面的方式配置参数，一行配置一个 -->
-		          <value>
-		          </value>
-		        </property>
-		      </bean>
-		    </array>
+			<array>
+				<!--插入插件的对象-->
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<props>
+							<prop key="helperDialect">mysql</prop><!--属性来指定分页插件使用哪种方言-->
+							<prop key="reasonable">true</prop><!--分页合理化参数，默认值为 false 。当该参数设置为 true 时， pageNum<=0 时会查询第一 页， pageNum>pages （超过总数时），会查询最后一页。-->
+						</props>
+					</property>
+				</bean>
+			</array>
 		  </property>		
 	</bean>
 

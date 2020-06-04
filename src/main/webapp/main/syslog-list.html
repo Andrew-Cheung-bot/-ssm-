@@ -126,37 +126,121 @@
     <div class="wrapper">
 
         <!-- 页面头部 -->
-        <div class="header"></div>
+       <div class="header"></div>
         <!-- 页面头部 /-->
 
         <!-- 导航侧栏 -->
-        <div class="aside"></div>
+       <div class="aside"></div>
         <!-- 导航侧栏 /-->
 
         <!-- 内容区域 -->
         <div class="content-wrapper">
 
             <!-- 内容头部 -->
-            <section class="content-header" style="color: #f9f2f4;background-color: #0c0c0c">
+            <section class="content-header">
                 <h1>
-                    今日天气
-                    <small>首页</small>
+                    日志管理 <small>全部日志</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a href="all-admin-index.html"><i
+                            class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a
+                            href="../sysLog/findAll">日志管理</a></li>
+
+                    <li class="active">全部日志</li>
                 </ol>
             </section>
             <!-- 内容头部 /-->
+
             <!-- 正文区域 -->
-            <section class="content" style="background-color: #0c0c0c">
-                <div>
-                    <!-- weather -->
-                    <div id="weather-view-he"></div>
-                    <script>
-                        WIDGET = {ID: 'IBHk0RZe0y'};
-                    </script>
-                    <script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
+            <section class="content"> <!-- .box-body -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">列表</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+
+                            <!--工具栏-->
+                            <div class="pull-left">
+                                <div class="form-group form-inline">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" title="刷新"
+                                                onclick="window.location.reload();">
+                                            <i class="fa fa-refresh"></i> 刷新
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-tools pull-right">
+                                <div class="has-feedback">
+                                    <input type="text" class="form-control input-sm"
+                                           placeholder="搜索"> <span
+                                        class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <!--工具栏/-->
+
+                            <!--数据列表-->
+                            <table id="dataList"
+                                   class="table table-bordered table-striped table-hover dataTable">
+                                <thead>
+                                <tr>
+                                    <th class="" style="padding-right: 0px"><input id="selall" type="checkbox" class="icheckbox_square-blue"></th>
+                                    <th class="sorting_asc">ID</th>
+                                    <th class="sorting">访问时间</th>
+                                    <th class="sorting">访问用户</th>
+                                    <th class="sorting">访问IP</th>
+                                    <th class="sorting">资源URL</th>
+                                    <th class="sorting">执行时间</th>
+                                    <th class="sorting">访问方法</th>
+                                </tr>
+                                </thead>
+                                <tbody id="todo-list">
+
+                                </tbody>
+
+                            </table>
+                            <!--数据列表/-->
+
+                            <!--工具栏-->
+                            <div class="pull-left">
+                                <div class="form-group form-inline">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" title="刷新"
+                                                onclick="window.location.reload();">
+                                            <i class="fa fa-refresh"></i> 刷新
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-tools pull-right">
+                                <div class="has-feedback">
+                                    <input type="text" class="form-control input-sm"
+                                           placeholder="搜索"> <span
+                                        class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <!--工具栏/-->
+
+
+                        </div>
+                        <!-- 数据表格 /-->
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <!-- .box-footer-->
+                    <div id="box-footer"></div>
+                    <!-- /.box-footer-->
+
+
+
                 </div>
+
             </section>
             <!-- 正文区域 /-->
 
@@ -215,14 +299,34 @@
     <script src="../static/plugins/bootstrap-slider/bootstrap-slider.js"></script>
     <script src="../static/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
     <script src="../static/plugins/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../static/plugins/template-web/template-web.js"></script>
+
+    <!--任务列表模板-->
+    <script type="text/html" id="taskTpl">
+        {{each tasks}}
+        <tr>
+            <td><input name="ids" type="checkbox"></td>
+            <td>{{$value.id}}</td>
+            <td>{{$value.visitTimeStr}}</td>
+            <td>{{$value.username}}</td>
+            <td>{{$value.ip}}</td>
+            <td>{{$value.url}}</td>
+            <td>{{$value.executionTime}}毫秒</td>
+            <td>{{$value.method}}</td>
+        </tr>
+        {{/each}}
+</script>
+
 
     <script>
+
         $(function () {
             $(".header").load("header.html");
             $(".aside").load("aside.html");
             $(".footer").load("footer.html");
 
         });
+
         window.onload = function getLastLoginTime() {
             var t = new Date();
             var hour = t.getHours();
@@ -240,6 +344,32 @@
                 }
             });
         }
+        $(window).load(function () {
+            //用于存放任务列表的数组
+            var taskAry=[];
+            var footerAry=[];
+            //选择任务列表容器
+            var taskBox=$('#todo-list');
+            var footerBox=$('#box-footer');
+
+            $.get({
+                url:"../sysLog/findAll",
+                success:function(data){
+                    //将已存在的任务存储在taskAry变量中
+                    taskAry=data.list;
+                    //将数据和html拼接好
+                    var html=template('taskTpl',{
+                       tasks:taskAry
+                    });
+                    //将任务列表显示在页面中
+                   taskBox.html(html);
+
+                    console.log(data.list);
+                    console.log(data);
+
+                }
+            })
+        });
 
         $(document).ready(function() {
             // 选择框
@@ -264,6 +394,22 @@
         $(document).ready(function() {
             // 激活导航位置
             setSidebarActive("admin-index");
+
+            // 列表按钮
+            $("#dataList td input[type='checkbox']").iCheck({
+                checkboxClass : 'icheckbox_square-blue',
+                increaseArea : '20%'
+            });
+            // 全选操作
+            $("#selall").click(function() {
+                var clicks = $(this).is(':checked');
+                if (!clicks) {
+                    $("#dataList td input[type='checkbox']").iCheck("uncheck");
+                } else {
+                    $("#dataList td input[type='checkbox']").iCheck("check");
+                }
+                $(this).data("clicks", !clicks);
+            });
         });
     </script>
 </body>

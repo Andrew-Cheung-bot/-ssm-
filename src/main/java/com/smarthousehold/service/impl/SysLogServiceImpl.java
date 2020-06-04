@@ -20,7 +20,8 @@ public class SysLogServiceImpl implements ISysLogService {
     }
 
     @Override
-    public List<SysLog> findAll() throws Exception {
+    public List<SysLog> findAll(Integer page, Integer size) throws Exception {
+        PageHelper.startPage(page,size);
         return sysLogDao.findAll();
     }
 }
