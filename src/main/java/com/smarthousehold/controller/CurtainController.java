@@ -166,7 +166,7 @@ public class CurtainController {
     //无需参数
     @RequestMapping(value="/getAllCurtain",method=RequestMethod.GET,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String getAllCurtain(Principal principal) {
+    public String getAllCurtain() {
 
         List<Curtain> allcurtain = curtainService.getAllCurtain();
 
