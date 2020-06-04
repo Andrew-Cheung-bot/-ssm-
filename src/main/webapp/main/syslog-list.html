@@ -297,6 +297,13 @@
 
     <script>
         window.onload = function getUser() {
+            var t = new Date();
+            var hour = t.getHours();
+            var minute = t.getMinutes();
+            var second = t.getSeconds();
+            var showTime = hour+((minute<10)?":0":":")+minute+((second<10)?":0":":")+second+((hour>12)?"PM":"AM");
+            $("#time").text(showTime);
+
             $.get({
                 url:"../Main/getUser",
                 success:function(data){

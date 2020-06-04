@@ -26,7 +26,7 @@ public class SysLog {
 
     public String getVisitTimeStr() {
         if(visitTime!=null){
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             visitTimeStr = simpleDateFormat.format(visitTime);
         }
         return visitTimeStr;
