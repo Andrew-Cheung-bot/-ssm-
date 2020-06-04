@@ -52,7 +52,7 @@
     <bean id="logAop" class="com.smarthousehold.controller.LogAop">    </bean>
     <aop:config>
         <aop:aspect id="logAdvice" ref="logAop">
-            <aop:pointcut id="pt1" expression="execution(* com.smarthousehold.controller.*.*(..))"/>
+            <aop:pointcut id="pt1" expression="execution(* com.smarthousehold.controller.FanController.*(..)) || execution(* com.smarthousehold.controller.CurtainController.*(..))" />
             <aop:before method="doBefore" pointcut-ref="pt1"/>
             <aop:after method="doAfter" pointcut-ref="pt1"/>
         </aop:aspect>

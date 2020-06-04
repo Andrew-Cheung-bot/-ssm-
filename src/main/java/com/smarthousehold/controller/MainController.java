@@ -20,11 +20,7 @@ import java.util.List;
 public class MainController {
     @RequestMapping(value = "/getUser",method = RequestMethod.GET)
     @ResponseBody
-    public String getUser(){//Principal principal
-        //获取当前操作的用户
-        SecurityContext context = SecurityContextHolder.getContext();//从上下文中获取当前登录的用户
-        User user = (User) context.getAuthentication().getPrincipal();
-        String username = user.getUsername();
-        return   username;              //principal.getName();
+    public String getUser(Principal principal){
+        return principal.getName();
     }
 }
