@@ -74,7 +74,7 @@ public class LogAop {
                     sysLog.setExecutionTime(time);
                     sysLog.setUrl(url);
                     sysLog.setIp(ip);
-                    sysLog.setMethod("[类名]" + clazz.getName() + "[方法名]" + method.getName());
+                    sysLog.setMethod("[方法名]" + method.getName());
                     sysLog.setUsername(username);
                     sysLog.setVisitTime(visitTime);
 

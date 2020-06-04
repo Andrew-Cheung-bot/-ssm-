@@ -21,10 +21,10 @@ public class SysLogController {
     @Autowired
     private ISysLogService sysLogService;
 
-    @RequestMapping(value = "/findAll",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/findAll",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String findAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
-                                @RequestParam(name = "size",required = true,defaultValue = "4") Integer size)throws Exception{
+                                @RequestParam(name = "size",required = true,defaultValue = "10") Integer size)throws Exception{
         List<SysLog> sysLogs=sysLogService.findAll(page,size);
         PageInfo pageInfo = new PageInfo(sysLogs);
         String string = JSON.toJSONString(pageInfo);

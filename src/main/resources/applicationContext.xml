@@ -31,8 +31,8 @@
 	      <value>root</value>  
 	  </property>  
 	  <property name="password">  
-	     <!-- <value>NewPassZCC</value>-->
-		  <value>123456</value>
+	      <value>NewPassZCC</value>
+		  <!--<value>123456</value>-->
 	  </property>  	
 	</bean>
 
