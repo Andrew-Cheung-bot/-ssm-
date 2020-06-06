@@ -2,6 +2,8 @@ package com.smarthousehold.mapper;
 
 import com.smarthousehold.pojo.User;
 
+import java.util.List;
+
 /**
  * @Auther:胡坚涛
  * @Data:2020/05/25/21:11
@@ -17,4 +19,13 @@ public interface UserMapper {
 
     void updateUser(User user);
 
+    List<User> findAll();
+
+    void delUserByUsername(String username);
+
+    void editUserByUsername(User user);
+
+    List<String> searchAutoPrompt(String key);
+
+    List<User> searchByUsername(String string);
 }

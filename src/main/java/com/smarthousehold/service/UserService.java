@@ -3,6 +3,8 @@ package com.smarthousehold.service;
 import com.smarthousehold.pojo.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+
 /**
  * 注册用户
  * @Auther:胡坚涛
@@ -16,5 +18,17 @@ public interface UserService extends UserDetailsService {
     boolean update(User user);
 
     //User login(User user);
+    List<User> findAll(Integer page, Integer size);
 
+    boolean addUser(User user);
+
+    boolean delUserByUsername(String username);
+
+    User findByUsername(String username);
+
+    boolean editUserByUsername(User user);
+
+    List searchAutoPrompt(String key);
+
+    List<User> searchByUsername(String string);
 }

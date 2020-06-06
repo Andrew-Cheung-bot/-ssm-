@@ -1,5 +1,6 @@
 package com.smarthousehold.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.smarthousehold.mapper.UserMapper;
 import com.smarthousehold.pojo.User;
 import com.smarthousehold.service.UserService;
@@ -84,6 +85,85 @@ public class UserServiceImpl implements UserService {
         MailUtils.sendMail(u.getEmail(),content,"相关账号密码发生修改");
 
         return true;
+    }
+
+    /**
+     * 查询全部用户
+     * @param page
+     * @param size
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<User> findAll(Integer page, Integer size){
+        PageHelper.startPage(page,size);
+        return userMapper.findAll();
+    }
+
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean addUser(User user) {
+        User u=null;
+        u=userMapper.findByUsername(user.getUsername());
+        //判断数据库中是否存在用户名
+        if(u!=null){
+            //用户名存在，注册失败
+            return false;
+        }
+        //2.保存用户信息
+        User addUser = new User();
+        addUser.setUsername(user.getUsername());
+        //使用bcrypt加密
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode(user.getPassword());
+        //放入经过加密的密码
+        addUser.setPassword(password);
+        addUser.setActivate(user.getActivate());
+        addUser.setEmail(user.getEmail());
+        addUser.setRolename(user.getRolename());
+        userMapper.addUser(addUser);
+        return true;
+    }
+
+    /**
+     * 通过用户名删除用户
+     * @param username
+     * @return
+     */
+    @Override
+    public boolean delUserByUsername(String username) {
+            userMapper.delUserByUsername(username);
+            return true;
+
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        User user = userMapper.findByUsername(username);
+
+        return user;
+    }
+
+    @Override
+    public boolean editUserByUsername(User user) {
+        userMapper.editUserByUsername(user);
+        return true;
+    }
+
+    @Override
+    public List searchAutoPrompt(String key) {
+        List list = userMapper.searchAutoPrompt(key);
+        return list;
+    }
+
+    @Override
+    public List<User> searchByUsername(String string) {
+        List<User> userList = userMapper.searchByUsername(string);
+        return userList;
     }
 
 

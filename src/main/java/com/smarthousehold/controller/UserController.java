@@ -1,6 +1,7 @@
 package com.smarthousehold.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 import com.smarthousehold.pojo.*;
 import com.smarthousehold.service.UserService;
 import com.smarthousehold.util.pojo.ResultInfo;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSONObject;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/User")
@@ -174,4 +176,139 @@ public class UserController {
     }
     */
 
+    /**
+     * 查询所有用户
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping(value = "/findAll",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String findAll(@RequestParam(name = "page",required = true,defaultValue = "1")Integer page,
+                          @RequestParam(name = "size",required = true,defaultValue = "10")Integer size){
+        List<User> userList = userService.findAll(page, size);
+        PageInfo pageInfo = new PageInfo(userList);
+        String string = JSON.toJSONString(pageInfo);
+        return string;
+    }
+
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @ResponseBody
+    public String addUser(@RequestBody User user){
+        boolean flag = userService.addUser(user);
+        ResultInfo info = new ResultInfo();
+        //响应结果
+        if(flag){
+            //添加成功
+            info.setFlag(true);
+        }else {
+            //添加失败
+            info.setFlag(false);
+            info.setErrorMsg("username exist! Please change your username");
+        }
+        //将info对象序列化为json
+        String json = JSON.toJSONString(info);
+        return json;
+    }
+
+    /**
+     * 根据名称删除用户
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "/delUserByUsername",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String delUserByUsername(@RequestParam("username") String username){
+        boolean flag = userService.delUserByUsername(username);
+        ResultInfo info = new ResultInfo();
+        if(flag){
+            //添加成功
+            info.setFlag(true);
+        }else {
+            //添加失败
+            info.setFlag(false);
+            info.setErrorMsg("  delete user fail! Please check again");
+        }
+        //将info对象序列化为json
+        String json = JSON.toJSONString(info);
+        return json;
+    }
+
+    @RequestMapping(value = "/reback",method = RequestMethod.GET)
+    @ResponseBody
+    public String reback(){
+        return null;
+    }
+
+    /**
+     * 根据用户名称查找用户信息
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/findUserByUsername",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String findUserByUsername(@RequestBody User user){
+        User findUser = userService.findByUsername(user.getUsername());
+        String string = JSON.toJSONString(findUser);
+        return string;
+    }
+
+    /**
+     * 根据用户名修改用户信息
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/editUserByUsername",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String editUserByUsername(@RequestBody User user){
+        boolean flag = userService.editUserByUsername(user);
+        ResultInfo info = new ResultInfo();
+        if(flag){
+            //添加成功
+            info.setFlag(true);
+        }else {
+            //添加失败
+            info.setFlag(false);
+            info.setErrorMsg(" edit user fail! Please check again");
+        }
+        //将info对象序列化为json
+        String json = JSON.toJSONString(info);
+        return json;
+    }
+
+    /**
+     * 模糊查询用户名
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "/searchAutoPrompt",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String searchAutoPrompt(String key){
+        List list = userService.searchAutoPrompt(key);
+        ResultInfo info = new ResultInfo();
+        info.setData(list);
+        String string = JSON.toJSONString(info);
+        return string;
+    }
+
+    /**
+     * 根据模糊查询用户名查询用户信息
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "/searchByUsername",method = RequestMethod.POST,produces ="application/json;charset=utf-8" )
+    @ResponseBody
+    public String searchByUsername(@RequestBody String key){
+        JSONObject json = new JSONObject();
+        JSONObject jsonObject = json.parseObject(key);
+        String string = jsonObject.getString("key");
+        List<User> userList = userService.searchByUsername(string);
+        String users = JSON.toJSONString(userList);
+        return users;
+    }
 }

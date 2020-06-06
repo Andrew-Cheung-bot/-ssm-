@@ -19,5 +19,20 @@
     <update id="updateStatus" parameterType="com.smarthousehold.pojo.User">
         update user_ set activate='Y' where  username=#{username}
     </update>
+    <select id="findAll" resultType="com.smarthousehold.pojo.User">
+        select * from user_ ORDER BY username DESC
+    </select>
+    <delete id="delUserByUsername">
+        delete from user_ where username=#{username}
+    </delete>
+    <update id="editUserByUsername" parameterType="User">
+        update user_ set activate=#{activate},email=#{email},rolename=#{rolename} where username=#{username}
+    </update>
+    <select id="searchAutoPrompt" resultType="string">
+        select username from user_ where username like concat(#{key},'%')
+    </select>
+    <select id="searchByUsername" resultType="com.smarthousehold.pojo.User">
+         select * from user_ where username like concat(#{string},'%')
+    </select>
 
 </mapper>
