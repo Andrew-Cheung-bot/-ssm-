@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         User u=null;
         u=userMapper.findByUsername(user.getUsername());
         //判断数据库中是否存在用户名
-        if(u==null){
+        if(u!=null){
             //用户名存在，修改失败
             return false;
         }
