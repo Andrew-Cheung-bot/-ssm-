@@ -72,6 +72,41 @@ public class UserController {
         return json;
     }
 
+    /**
+     * 注册用户
+     * @param user_get
+     * @return
+     */
+    @RequestMapping(value = "/registUserformobile",method = RequestMethod.POST)
+    @ResponseBody
+    public String addUserformobile(@RequestBody User user_get){
+
+        User user = new User();
+        user.setUsername(user_get.getUsername());
+
+        //使用bcrypt加密
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode(user_get.getPassword());
+        //放入经过加密的密码
+        user.setPassword(password);
+        user.setEmail(user_get.getEmail());
+        user.setRolename("USER");
+        boolean flag = userService.regist(user);
+        ResultInfo info = new ResultInfo();
+        //响应结果
+        if(flag){
+            //注册成功
+            info.setFlag(true);
+        }else {
+            //注册失败
+            info.setFlag(false);
+            info.setErrorMsg("username exist! Please change your username");
+        }
+        //将info对象序列化为json
+        String json = JSON.toJSONString(info);
+        return json;
+    }
+
 
 
 
