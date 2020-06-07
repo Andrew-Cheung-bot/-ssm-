@@ -1,6 +1,7 @@
 package com.smarthousehold.mapper;
 
 import com.smarthousehold.pojo.User;
+import com.smarthousehold.pojo.UserInfo;
 
 import java.util.List;
 
@@ -36,4 +37,6 @@ public interface UserMapper {
     void addUserCurtain(String username, String cid);
 
     void addUserFan(String username, String fid);
+
+    UserInfo findDetail(String username);
 }

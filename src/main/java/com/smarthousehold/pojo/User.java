@@ -2,7 +2,7 @@ package com.smarthousehold.pojo;
 
 public class User {
 
-    private String username;
+    public String username;
     //用户姓名
     private String email;
     //用户邮箱

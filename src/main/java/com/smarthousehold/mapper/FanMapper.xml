@@ -58,5 +58,8 @@
 	<select id="findOtherFan" resultType="com.smarthousehold.pojo.Fan">
 		select * from fan_ where fid not in (select fid from user_fan_ where username=#{user})
 	</select>
+	<select id="findFanByUsername" resultType="com.smarthousehold.pojo.Fan">
+		 select * from fan_ where fid in (select fid from user_fan_ where username=#{username})
+	</select>
 </mapper>
 

@@ -1,6 +1,7 @@
 package com.smarthousehold.service;
 
 import com.smarthousehold.pojo.User;
+import com.smarthousehold.pojo.UserInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -35,4 +36,6 @@ public interface UserService extends UserDetailsService {
     Boolean addUserCurtain(String username, String[] id);
 
     Boolean addUserFan(String username, String[] id);
+
+    UserInfo findDetail(String username);
 }

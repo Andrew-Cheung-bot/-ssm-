@@ -46,5 +46,13 @@
     <insert id="addUserFan" parameterType="string">
           insert into user_fan_(username,fid) values(#{param1},#{param2})
     </insert>
+    <resultMap id="user2"   type="com.smarthousehold.pojo.UserInfo">
+        <id property="username" column="username"></id>
+        <collection property="curtains" ofType="com.smarthousehold.pojo.Curtain" select="com.smarthousehold.mapper.CurtainMapper.findCurtainByUsername" column="username"></collection>
+        <collection property="fans" ofType="com.smarthousehold.pojo.Fan" select="com.smarthousehold.mapper.FanMapper.findFanByUsername" column="username"></collection>
+    </resultMap>
+    <select id="findDetail" resultMap="user2" >
+       select * from user_ where username=#{username}
+    </select>
 
 </mapper>

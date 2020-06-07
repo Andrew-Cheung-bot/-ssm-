@@ -34,4 +34,6 @@ public interface CurtainMapper {
     List<Data_Curtain> findDetailByFid(String cid);
 
     List<Curtain> findOtherCurtain(String user);
+
+    List<Curtain> findCurtainByUsername(String username);
 }

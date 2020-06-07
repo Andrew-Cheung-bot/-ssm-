@@ -35,4 +35,6 @@ public interface FanMapper {
     void deleteFan_user(String fid);
 
     List<Fan> findOtherFan(String user);
+
+    List<Fan> findFanByUsername(String username);
 }

@@ -58,5 +58,8 @@
     <select id="findOtherCurtain" resultType="com.smarthousehold.pojo.Curtain">
 		select * from curtain_ where cid not in (select cid from user_curtain_ where username=#{user})
 	</select>
+	<select id="findCurtainByUsername" resultType="com.smarthousehold.pojo.Curtain">
+        select * from curtain_ where cid in (select cid from user_curtain_ where username=#{username})
+	</select>
 </mapper>
 

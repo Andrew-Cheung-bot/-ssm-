@@ -419,4 +419,20 @@ public class UserController {
         String string = JSON.toJSONString(info);
         return string;
     }
+
+    /**
+     * 查找用户所光联的设备信息
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/findDetail",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public String findDetail(@RequestBody String param){
+        JSONObject jo = new JSONObject();
+        JSONObject jsonObject = jo.parseObject(param);
+        String username = jsonObject.getString("username");
+        UserInfo userInfo=userService.findDetail(username);
+        String json = JSON.toJSONString(userInfo);
+        return json;
+    }
 }

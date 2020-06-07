@@ -684,6 +684,17 @@
             }
         )
     });
+    $("#user-list").on('click', ".btn.bg-olive.btn-xs.detail_user", function () {
+        var edit = $(this).attr("action");
+
+        var url = 'user-detail.html?' + encodeURI(edit);
+
+        $.get("../User/reback",
+            function () {
+                $(window).attr('location', url);
+            }
+        )
+    });
 
     $(document).ready(function () {
         // 选择框

@@ -3,6 +3,7 @@ package com.smarthousehold.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.smarthousehold.mapper.UserMapper;
 import com.smarthousehold.pojo.User;
+import com.smarthousehold.pojo.UserInfo;
 import com.smarthousehold.service.UserService;
 import com.smarthousehold.util.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,6 +183,11 @@ public class UserServiceImpl implements UserService {
             userMapper.addUserFan(username,fid);
         }
         return true;
+    }
+
+    @Override
+    public UserInfo findDetail(String username) {
+        return userMapper.findDetail(username);
     }
 
 
