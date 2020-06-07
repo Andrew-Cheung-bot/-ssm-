@@ -1,5 +1,6 @@
 package com.smarthousehold.service;
 
+import com.smarthousehold.pojo.Curtain;
 import com.smarthousehold.pojo.Fan;
 import com.smarthousehold.pojo.Data_Fan;
 
@@ -23,4 +24,11 @@ public interface FanService {
     void addFan(Fan fan);
     //删除风扇
     void deleteFan(String  fid);
+
+    List<Fan> findAll(Integer page, Integer size);
+
+
+    List<Data_Fan> findDetailByFid(Integer page, Integer size,String fid);
+
+    List<Fan> findOtherFan(String user);
 }

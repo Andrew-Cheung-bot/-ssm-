@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSONObject;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -345,5 +346,77 @@ public class UserController {
         List<User> userList = userService.searchByUsername(string);
         String users = JSON.toJSONString(userList);
         return users;
+    }
+
+    /**
+     * 添加用户设备
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/addUserCurtain",method = RequestMethod.POST,produces ="application/json;charset=utf-8" )
+    @ResponseBody
+    public String addUserCurtain(@RequestBody String params){
+        JSONObject json = new JSONObject();
+        JSONObject jsonObject = json.parseObject(params);
+        String username = jsonObject.getString("username");
+        String ids = jsonObject.getString("ids");
+        String[] id=ids.split(",");
+        for(int i=0;i<id.length;i++){
+            if(i==0){
+                id[i]=id[i].replace("[","");
+            }else if(i==id.length-1){
+                id[i]=id[i].replace("]","");
+            }
+            id[i]=id[i].replace("\"","").replace("\"","");
+            //System.out.println(id[i]);
+        }
+        ResultInfo info = new ResultInfo();
+        Boolean flag=userService.addUserCurtain(username,id);
+        if(flag){
+            //添加成功
+            info.setFlag(true);
+        }else {
+            //添加失败
+            info.setFlag(false);
+            info.setErrorMsg(" addUserCurtain user fail! Please check again");
+        }
+        String string = JSON.toJSONString(info);
+        return string;
+    }
+
+    /**
+     * 添加用户设备
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/addUserFan",method = RequestMethod.POST,produces ="application/json;charset=utf-8" )
+    @ResponseBody
+    public String addUserFan(@RequestBody String params){
+        JSONObject json = new JSONObject();
+        JSONObject jsonObject = json.parseObject(params);
+        String username = jsonObject.getString("username");
+        String ids = jsonObject.getString("ids");
+        String[] id=ids.split(",");
+        for(int i=0;i<id.length;i++){
+            if(i==0){
+                id[i]=id[i].replace("[","");
+            }else if(i==id.length-1){
+                id[i]=id[i].replace("]","");
+            }
+            id[i]=id[i].replace("\"","").replace("\"","");
+            //System.out.println(id[i]);
+        }
+        ResultInfo info = new ResultInfo();
+        Boolean flag=userService.addUserFan(username,id);
+        if(flag){
+            //添加成功
+            info.setFlag(true);
+        }else {
+            //添加失败
+            info.setFlag(false);
+            info.setErrorMsg(" addUserCurtain user fail! Please check again");
+        }
+        String string = JSON.toJSONString(info);
+        return string;
     }
 }

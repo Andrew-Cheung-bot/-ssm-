@@ -28,4 +28,12 @@ public interface UserMapper {
     List<String> searchAutoPrompt(String key);
 
     List<User> searchByUsername(String string);
+
+    void delUser_Curtain(String username);
+
+    void delUser_fan(String username);
+
+    void addUserCurtain(String username, String cid);
+
+    void addUserFan(String username, String fid);
 }

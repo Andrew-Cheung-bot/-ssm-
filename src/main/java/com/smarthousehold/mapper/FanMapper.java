@@ -1,5 +1,6 @@
 package com.smarthousehold.mapper;
 
+import com.smarthousehold.pojo.Curtain;
 import com.smarthousehold.pojo.Fan;
 import com.smarthousehold.pojo.Data_Fan;
 
@@ -24,4 +25,14 @@ public interface FanMapper {
     void addFan(Fan fan);
     //删除风扇
     void deleteFan(String fid);
+
+    List<Fan> findAll();
+
+    List<Data_Fan> findDetailByFid(String fid);
+
+    void deleteFan_data(String fid);
+
+    void deleteFan_user(String fid);
+
+    List<Fan> findOtherFan(String user);
 }

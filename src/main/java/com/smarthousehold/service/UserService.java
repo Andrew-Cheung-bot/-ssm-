@@ -31,4 +31,8 @@ public interface UserService extends UserDetailsService {
     List searchAutoPrompt(String key);
 
     List<User> searchByUsername(String string);
+
+    Boolean addUserCurtain(String username, String[] id);
+
+    Boolean addUserFan(String username, String[] id);
 }

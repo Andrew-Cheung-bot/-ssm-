@@ -132,15 +132,15 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                用户管理 <small>全部用户</small>
+                设备管理 <small>风扇设备</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="main.html"><i
                         class="fa fa-dashboard"></i> 首页</a></li>
                 <li><a
-                        href="user-list.html">用户管理</a></li>
+                        href="fan-list.html">设备管理</a></li>
 
-                <li class="active">全部用户</li>
+                <li class="active">全部风扇</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -149,7 +149,7 @@
         <section class="content"> <!-- .box-body -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">列表</h3>
+                    <h3 class="box-title">风扇列表</h3>
                     <div id="errorMsg" style="color:red;text-align: center"></div>
                 </div>
 
@@ -163,7 +163,7 @@
                             <div class="form-group form-inline">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建"
-                                            onclick="location.href='user-add.html'">
+                                            onclick="location.href='fan-add.html'">
                                         <i class="fa fa-file-o"></i> 添加
                                     </button>
 
@@ -175,16 +175,7 @@
                             </div>
                         </div>
                         <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm"
-                                       placeholder="请输入搜索关键字" id="search"> <span
-                                    class="glyphicon glyphicon-search form-control-feedback " >
-                                <ul class="list-group" id="list-box">
 
-                                </ul>
-
-                                  </span>
-                            </div>
                         </div>
 
 
@@ -198,14 +189,14 @@
                                 <th class="" style="padding-right: 0px"><input
                                         id="selall" type="checkbox" class="icheckbox_square-blue">
                                 </th>
-                                <th class="sorting_asc">用户名</th>
-                                <th class="sorting_asc sorting_asc_disabled">邮箱</th>
-                                <th class="sorting">激活状态(Y已激活/N未激活)</th>
-                                <th class="sorting_desc sorting_desc_disabled">角色权限</th>
+                                <th class="sorting_asc">风扇ID</th>
+                                <th class="sorting_asc sorting_asc_disabled">温度阈值(℃)</th>
+                                <th class="sorting">湿度阈值(%)</th>
+                                <th class="sorting_desc sorting_desc_disabled">设备当前状态(开/关)</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
-                            <tbody id="user-list">
+                            <tbody id="fan-list">
 
                             </tbody>
                             <!--
@@ -320,114 +311,40 @@
 <script src="../static/plugins/template-web/template-web.js"></script>
 
 <!--任务列表模板-->
+<!--列表-->
 <script type="text/html" id="taskTpl">
     {{each tasks}}
     <tr>
-        <td><input name="ids" type="checkbox" ></td>
-        <td>{{$value.username}}</td>
-        <td>{{$value.email}}</td>
-        <td>{{$value.activate}}</td>
-        <td>{{$value.rolename}}</td>
+        <td><input name="ids" type="checkbox"></td>
+        <td>{{$value.fid}}</td>
+        <td>{{$value.stem}}</td>
+        <td>{{$value.shumidity}}</td>
+        {{if $value.state == '0'}}
+        <td>关</td>
+        {{/if}}
+        {{if $value.state == '1'}}
+        <td>开</td>
+        {{/if}}
         <td class="text-center">
-            <a href="javascrip:;" action="username={{$value.username}}" class="btn bg-olive btn-xs detail_user" id="detail_user">详情</a>
-            <a href="javascrip:;" action="username={{$value.username}}" class="btn bg-olive btn-xs user_curtain" id="user_curtain">窗帘绑定</a>
-            <a href="javascrip:;" action="username={{$value.username}}" class="btn bg-olive btn-xs user_fan" id="user_fan">风扇绑定</a>
-            <a href="javascrip:;" action="username={{$value.username}}" class="btn bg-olive btn-xs edit" id="edit_user">修改用户</a>
-            <a href="javascrip:;" action="../User/delUserByUsername?username={{$value.username}} "
-               class="btn bg-olive btn-xs del" id="del_user">删除用户</a>
-
+            <a href="javascrip:;" action="fid={{$value.fid}}" class="btn bg-olive btn-xs detail" id="find_fan">查看详情</a>
+            <a href="javascrip:;" action="fid={{$value.fid}}" class="btn bg-olive btn-xs edit" id="edit_fan">修改设备</a>
+            <a href="javascrip:;" action="fid={{$value.fid}} "
+               class="btn bg-olive btn-xs del" id="del_user">删除设备</a>
         </td>
     </tr>
     {{/each}}
 </script>
+
+<!--分页导航栏-->
 <script type="text/html" id="taskTpl1">
     总共{{pageInfo.pages}} 页，共{{pageInfo.total}} 条数据。 每页最多显示{{pageInfo.pageSize}}
     条 ,<h4 id="message_box" style="font-family: Gotham-Book;color: #9f191f">当前页数:{{pageInfo.pageNum}}
         显示条数:{{pageInfo.size}}</h4>
     </div>
 </script>
-<script type="text/html" id="taskTpl2">
-    {{each result}}
-    <li class="list-group-item" >{{$value}}</li>
-    {{/each}}
-</script>
+
+
 <script>
-
-    //获取提示文字的存放容器
-    var listBox = $("#list-box");
-    //存储定时器变量
-    var timer=null;
-    //获取搜索框
-    //当用户在文本框中输入的时候触发
-    $("#search").on('input', function () {
-        //清除上一次开启的定时器
-        clearTimeout(timer);
-        //获取用户输入的内容
-        var key = this.value;
-        //如果用户没有在搜索框中输入内容
-        if(key.trim().length==0){
-            //将提示下拉框隐藏掉
-            $(".list-group")[0].style.display = 'none';
-            //阻止程序向下执行
-            return ;
-        }
-        //开启定时器 让请求延迟发送
-        timer=setTimeout(function () {
-            //向服务器端发送请求
-            //向服务器索取和用户输入关键字相关的内容
-            $.get({
-                url: '../User/searchAutoPrompt',
-                data: {
-                    key: key
-                },
-                success: function (data) {
-                    console.log(data.data);
-                    //使用模板引擎拼接字符串
-                    var html = template('taskTpl2', {
-                        result: data.data
-                    });
-                    //将拼接好的字符串显示在页面中
-                    listBox.html(html);
-                    //显示ul容器
-                    $(".list-group")[0].style.display = 'block';
-                }
-
-            })
-        }, 800);
-    });
-
-    $("#search").bind("keypress",function () {
-          if(event.keyCode == "13"){
-              //用于存放任务列表的数组
-              var taskAry = [];
-              //选择任务列表容器
-              var taskBox = $('#user-list');
-              var key = this.value;
-             $.post({
-                 url: "../User/searchByUsername",
-                 dataType:'json',
-                 contentType:'application/json;charset=utf-8',
-                 //traditional 为true阻止深度序列化
-                 traditional: true,
-                 data: JSON.stringify({
-                         key: key
-                     }),
-                 success: function (data) {
-                      console.log(data);
-                     //将已存在的任务存储在taskAry变量中
-                     taskAry = data;
-                     //将数据和html拼接好
-                     var html = template('taskTpl', {
-                         tasks: taskAry
-                     });
-                     //将任务列表显示在页面中
-                     taskBox.html(html);
-                     $(".box-footer").remove;
-                     $(".list-group")[0].style.display = 'none';
-                 }
-             });
-          }
-    });
 
 
     $(function () {
@@ -462,11 +379,11 @@
         var taskAry = [];
         var taskAry1 = [];
         //选择任务列表容器
-        var taskBox = $('#user-list');
+        var taskBox = $('#fan-list');
         var taskBox1 = $('#box-footer1');
 
         $.post({
-            url: "../User/findAll",
+            url: "../Fan/findAll",
             contentType: "application/x-www-form-urlencoded",
             traditional: true, //traditional 为true阻止深度序列化
             data: {
@@ -499,10 +416,10 @@
         var taskAry = [];
         var taskAry1 = [];
         //选择任务列表容器
-        var taskBox = $('#user-list');
+        var taskBox = $('#fan-list');
         var taskBox1 = $('#box-footer1');
         $.post({
-            url: "../User/findAll",
+            url: "../Fan/findAll",
             contentType: "application/x-www-form-urlencoded",
             traditional: true, //traditional 为true阻止深度序列化
             data: {
@@ -533,10 +450,10 @@
         var taskAry = [];
         var taskAry1 = [];
         //选择任务列表容器
-        var taskBox = $('#user-list');
+        var taskBox = $('#fan-list');
         var taskBox1 = $('#box-footer1');
         $.post({
-            url: "../User/findAll",
+            url: "../Fan/findAll",
             contentType: "application/x-www-form-urlencoded",
             traditional: true, //traditional 为true阻止深度序列化
             data: {
@@ -567,10 +484,10 @@
         var taskAry = [];
         var taskAry1 = [];
         //选择任务列表容器
-        var taskBox = $('#user-list');
+        var taskBox = $('#fan-list');
         var taskBox1 = $('#box-footer1');
         $.post({
-            url: "../User/findAll",
+            url: "../Fan/findAll",
             contentType: "application/x-www-form-urlencoded",
             traditional: true, //traditional 为true阻止深度序列化
             data: {
@@ -601,10 +518,10 @@
         var taskAry = [];
         var taskAry1 = [];
         //选择任务列表容器
-        var taskBox = $('#user-list');
+        var taskBox = $('#fan-list');
         var taskBox1 = $('#box-footer1');
         $.post({
-            url: "../User/findAll",
+            url: "../Fan/findAll",
             contentType: "application/x-www-form-urlencoded",
             traditional: true, //traditional 为true阻止深度序列化
             data: {
@@ -632,27 +549,40 @@
     });
 
 
-    $("#user-list").on('click', ".btn.bg-olive.btn-xs.del", function () {
-        // console.log($(this).attr("action"));
-        $.get($(this).attr("action"),
-            function (data) {
-                if (data.flag) {
-                    //删除成功，跳转成功页面
-                    $(window).attr('location', "user-list.html");
-                } else {
-                    //删除失败,给errorMsg添加提示信息
-                    $("#errorMsg").html(data.errorMsg);
-                    console.log(data.errorMsg)
-                    alert(data.errorMsg);
-                }
+    $("#fan-list").on('click', ".btn.bg-olive.btn-xs.del", function () {
+        var loc = $(this).attr("action");
+        var n1 = loc.length;//地址的总长度
+        var n2 = loc.indexOf("=");//取得=号的位置
+        var fid = decodeURI(loc.substr(n2 + 1, n1 - n2));//从=号后面的内容
+        var success="delete fid="+fid+" fan seccessful";
+        var fail= "delete failure because FID do not exist or FID is 0";
+        $.post({
+            url:"../Fan/deleteFan",
+            contentType: 'application/json;charset=utf-8',
+            //traditional 为true阻止深度序列化
+            traditional: true,
+            data: JSON.stringify({
+                fid: fid
+            }),
+            success: function (data) {
+            if (data==success) {
+               alert(data);
+                //删除成功，跳转成功页面
+                $(window).attr('location', "fan-list.html");
+            } else {
+                //删除失败,给errorMsg添加提示信息
+                $("#errorMsg").html(fail);
+                console.log(data.errorMsg)
+                alert(data.errorMsg);
             }
-        )
+        }
+        });
     });
 
-    $("#user-list").on('click', ".btn.bg-olive.btn-xs.edit", function () {
+    $("#fan-list").on('click', ".btn.bg-olive.btn-xs.edit", function () {
         var edit = $(this).attr("action");
 
-        var url = 'user-edit.html?' + encodeURI(edit);
+        var url = 'fan-edit.html?' + encodeURI(edit);
 
         $.get("../User/reback",
             function () {
@@ -660,23 +590,10 @@
             }
         )
     });
+    $("#fan-list").on('click', ".btn.bg-olive.btn-xs.detail", function () {
+        var detail = $(this).attr("action");
 
-    $("#user-list").on('click', ".btn.bg-olive.btn-xs.user_curtain", function () {
-        var edit = $(this).attr("action");
-
-        var url = 'user-curtain-add.html?' + encodeURI(edit);
-
-        $.get("../User/reback",
-            function () {
-                $(window).attr('location', url);
-            }
-        )
-    });
-
-    $("#user-list").on('click', ".btn.bg-olive.btn-xs.user_fan", function () {
-        var edit = $(this).attr("action");
-
-        var url = 'user-fan-add.html?' + encodeURI(edit);
+        var url = 'fan-detail.html?' + encodeURI(detail);
 
         $.get("../User/reback",
             function () {

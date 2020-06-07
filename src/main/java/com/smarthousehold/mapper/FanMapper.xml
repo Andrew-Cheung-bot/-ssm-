@@ -43,5 +43,20 @@
 	<delete id="deleteFan" parameterType="java.lang.String">
 		delete from fan_ where fid = #{fid}
 	</delete>
+    <select id="findAll" resultType="com.smarthousehold.pojo.Fan">
+		select  * from fan_ ORDER BY fid DESC
+	</select>
+    <select id="findDetailByFid" resultType="com.smarthousehold.pojo.Data_Fan">
+		select * from fan_data_ where fid=#{fid}
+	</select>
+	<delete id="deleteFan_data">
+		delete from fan_data_ where fid=#{fid}
+	</delete>
+	<delete id="deleteFan_user">
+		delete from user_fan_ where fid=#{fid}
+	</delete>
+	<select id="findOtherFan" resultType="com.smarthousehold.pojo.Fan">
+		select * from fan_ where fid not in (select fid from user_fan_ where username=#{user})
+	</select>
 </mapper>
 

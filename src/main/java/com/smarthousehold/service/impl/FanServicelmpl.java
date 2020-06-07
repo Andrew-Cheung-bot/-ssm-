@@ -1,6 +1,8 @@
 package com.smarthousehold.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.smarthousehold.mapper.FanMapper;
+import com.smarthousehold.pojo.Curtain;
 import com.smarthousehold.pojo.Fan;
 import com.smarthousehold.pojo.Data_Fan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,28 @@ public class FanServicelmpl implements FanService {
     public void addFan(Fan fan) {fanMapper.addFan(fan);}
 
     @Override
-    public void deleteFan(String fid){fanMapper.deleteFan(fid);};
+    public void deleteFan(String fid){
+        fanMapper.deleteFan_user(fid);
+        fanMapper.deleteFan_data(fid);
+        fanMapper.deleteFan(fid);
+    }
+
+    @Override
+    public List<Fan> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        return fanMapper.findAll();
+    }
+
+    @Override
+    public List<Data_Fan> findDetailByFid(Integer page, Integer size,String fid) {
+        PageHelper.startPage(page,size);
+        return fanMapper.findDetailByFid(fid);
+    }
+
+    @Override
+    public List<Fan> findOtherFan(String user) {
+        return  fanMapper.findOtherFan(user);
+    }
+
+
 }

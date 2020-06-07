@@ -24,4 +24,14 @@ public interface CurtainMapper {
     void addCurtain(Curtain curtain);
     //删除窗帘
     void deleteCurtain(String cid);
+
+    List<Curtain> findAll();
+
+    void deleteCurtain_data(String cid);
+
+    void deleteCurtain_user(String cid);
+
+    List<Data_Curtain> findDetailByFid(String cid);
+
+    List<Curtain> findOtherCurtain(String user);
 }

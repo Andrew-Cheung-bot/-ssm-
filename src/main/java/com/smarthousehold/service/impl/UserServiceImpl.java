@@ -136,6 +136,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean delUserByUsername(String username) {
+            userMapper.delUser_Curtain(username);
+            userMapper.delUser_fan(username);
             userMapper.delUserByUsername(username);
             return true;
 
@@ -164,6 +166,22 @@ public class UserServiceImpl implements UserService {
     public List<User> searchByUsername(String string) {
         List<User> userList = userMapper.searchByUsername(string);
         return userList;
+    }
+
+    @Override
+    public Boolean addUserCurtain(String username, String[] id) {
+        for(String cid:id){
+            userMapper.addUserCurtain(username,cid);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean addUserFan(String username, String[] id) {
+        for(String fid:id){
+            userMapper.addUserFan(username,fid);
+        }
+        return true;
     }
 
 

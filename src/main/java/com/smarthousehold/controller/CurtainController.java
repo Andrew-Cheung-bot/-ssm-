@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import com.smarthousehold.pojo.Data_Fan;
+import com.smarthousehold.pojo.Fan;
 import com.smarthousehold.service.CurtainService;
+import com.smarthousehold.util.pojo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONArray;
 import com.smarthousehold.pojo.Curtain;
@@ -145,7 +146,7 @@ public class CurtainController {
 
     //获取curtain设置数据接口
     //需要传入cid参数
-    @RequestMapping(value="/getCurtain",method=RequestMethod.POST)
+    @RequestMapping(value="/getCurtain",method=RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public String getCurtain(@RequestBody String param) {
 
@@ -156,9 +157,9 @@ public class CurtainController {
 
         Curtain curtain = curtainService.getCurtain(parseObject.getString("cid"));
         String string_curtain = JSON.parse(JSON.toJSONString(curtain)).toString();
-        System.out.println(JSON.toJSONString(curtain));
+        String string = JSON.toJSONString(curtain);
 
-        return string_curtain;
+        return string;
 
     }
 
@@ -187,29 +188,40 @@ public class CurtainController {
 
         JSONObject parseObject = jo.parseObject(param); //string转json类型
         System.out.println("这是json类型"+parseObject);
+        Curtain findCurtain = curtainService.getCurtain(parseObject.getString("cid"));
+        ResultInfo info = new ResultInfo();
+        //响应结果
+        if(findCurtain==null){
+            Curtain curtain = new Curtain();
 
-        Curtain curtain = new Curtain();
+            curtain.setStem(parseObject.getString("Stem"));
+            curtain.setShumidity(parseObject.getString("Shumidity"));
+            curtain.setState("0");
+            curtain.setCid(parseObject.getString("cid"));
+            curtainService.addCurtain(curtain);
 
-        curtain.setStem(parseObject.getString("Stem"));
-        curtain.setShumidity(parseObject.getString("Shumidity"));
-        curtain.setState("0");
-        curtain.setCid(parseObject.getString("cid"));
-        curtainService.addCurtain(curtain);
-
-        //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
-        Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
-        //1表示此为增加
-        curtain_information.setAction("1");
-        String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
-        MyWebSocketHandler send = new MyWebSocketHandler();
-        send.sendMessageToUser(123456, new TextMessage(string_curtain));
-
-        return "adding curtain successful";
+            //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
+            Curtain curtain_information = curtainService.getCurtain(parseObject.getString("cid"));
+            //1表示此为增加
+            curtain_information.setAction("1");
+            String string_curtain = JSON.parse(JSON.toJSONString(curtain_information)).toString();
+            MyWebSocketHandler send = new MyWebSocketHandler();
+            send.sendMessageToUser(123456, new TextMessage(string_curtain));
+            //添加成功
+            info.setFlag(true);
+        }else {
+            //添加失败
+            info.setFlag(false);
+            info.setErrorMsg("fanId exist! Please change your fanId");
+        }
+        //将info对象序列化为json
+        String json = JSON.toJSONString(info);
+        return json;
     }
 
     //删除curtain接口
     //需要传入cid参数
-    @RequestMapping(value = "/deleteCurtain",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteCurtain",method = RequestMethod.POST)
     @ResponseBody
     public String deleteCurtain(@RequestBody String param) throws IOException {
         JSONObject jo=new JSONObject();
@@ -233,5 +245,52 @@ public class CurtainController {
             return "delete failure because CID do not exist or CID is 0";
         }
     }
+    /**
+     * 分页查询全部设备
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping(value = "/findAll",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String findAll(@RequestParam(name = "page",required = true,defaultValue = "1")Integer page,
+                          @RequestParam(name = "size",required = true,defaultValue = "10")Integer size){
+        List<Curtain> funList = curtainService.findAll(page, size);
+        PageInfo pageInfo = new PageInfo(funList);
+        String string = JSON.toJSONString(pageInfo);
+        return string;
+    }
 
+    /**
+     * 查找设备对应的数据
+     * @param page
+     * @param size
+     * @param cid
+     * @return
+     */
+    @RequestMapping(value = "/findDetailByCid",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String findDetailByCid(@RequestParam(name = "page",required = true,defaultValue = "1")Integer page,
+                                  @RequestParam(name = "size",required = true,defaultValue = "10")Integer size,@RequestParam("cid") String cid){
+        List<Data_Curtain> funDetail=curtainService.findDetailByFid(page, size,cid);
+        PageInfo pageInfo = new PageInfo(funDetail);
+        String string = JSON.toJSONString(pageInfo);
+        return string;
+    }
+
+    /**
+     * 查找该用户未绑定的设备
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "/findCurtainByUsername",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String  findDetailByCid(@RequestBody String username){
+        JSONObject  jo= new JSONObject();
+        JSONObject jsonObject = jo.parseObject(username);
+        String user = jsonObject.getString("username");
+        List<Curtain> curtainList=curtainService.findOtherCurtain(user);
+        String json = JSON.toJSONString(curtainList);
+        return json;
+    }
 }

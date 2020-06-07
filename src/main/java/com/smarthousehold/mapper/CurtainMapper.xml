@@ -43,5 +43,20 @@
 	<delete id="deleteCurtain" parameterType="java.lang.String">
 		delete from curtain_ where cid = #{cid}
 	</delete>
+    <select id="findAll" resultType="com.smarthousehold.pojo.Curtain">
+		select  * from curtain_ ORDER BY cid DESC
+	</select>
+	<delete id="deleteCurtain_data">
+		delete from curtain_data_ where cid=#{cid}
+	</delete>
+	<delete id="deleteCurtain_user">
+		delete from user_curtain_ where cid=#{cid}
+	</delete>
+	<select id="findDetailByFid" resultType="com.smarthousehold.pojo.Data_Curtain">
+		select * from curtain_data_ where cid=#{cid}
+	</select>
+    <select id="findOtherCurtain" resultType="com.smarthousehold.pojo.Curtain">
+		select * from curtain_ where cid not in (select cid from user_curtain_ where username=#{user})
+	</select>
 </mapper>
 

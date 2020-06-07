@@ -1,5 +1,6 @@
 package com.smarthousehold.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.smarthousehold.pojo.Data_Curtain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,27 @@ public class CurtainServiceImpl implements CurtainService {
     public void addCurtain(Curtain curtain) {curtainMapper.addCurtain(curtain);}
 
     @Override
-    public void deleteCurtain(String cid){curtainMapper.deleteCurtain(cid);};
+    public void deleteCurtain(String cid){
+        curtainMapper.deleteCurtain_user(cid);
+        curtainMapper.deleteCurtain_data(cid);
+        curtainMapper.deleteCurtain(cid);
+    }
+
+    @Override
+    public List<Curtain> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        return curtainMapper.findAll();
+    }
+
+    @Override
+    public List<Data_Curtain> findDetailByFid(Integer page, Integer size, String cid) {
+        PageHelper.startPage(page,size);
+        return curtainMapper.findDetailByFid(cid);
+    }
+
+    @Override
+    public List<Curtain> findOtherCurtain(String user) {
+        return  curtainMapper.findOtherCurtain(user);
+    }
+
 }

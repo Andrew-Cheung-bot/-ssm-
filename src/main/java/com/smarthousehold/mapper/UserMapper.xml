@@ -34,5 +34,17 @@
     <select id="searchByUsername" resultType="com.smarthousehold.pojo.User">
          select * from user_ where username like concat(#{string},'%')
     </select>
+    <delete id="delUser_Curtain">
+        delete from user_curtain_ where username=#{username}
+    </delete>
+    <delete id="delUser_fan">
+        delete from user_fan_ where username=#{username}
+    </delete>
+    <insert id="addUserCurtain" parameterType="string">
+        insert into user_curtain_(username,cid) values(#{param1},#{param2})
+    </insert>
+    <insert id="addUserFan" parameterType="string">
+          insert into user_fan_(username,fid) values(#{param1},#{param2})
+    </insert>
 
 </mapper>

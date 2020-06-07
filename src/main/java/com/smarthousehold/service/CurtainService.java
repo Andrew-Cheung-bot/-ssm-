@@ -2,6 +2,8 @@ package com.smarthousehold.service;
 
 import com.smarthousehold.pojo.Curtain;
 import com.smarthousehold.pojo.Data_Curtain;
+import com.smarthousehold.pojo.Data_Fan;
+import com.smarthousehold.pojo.Fan;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +25,10 @@ public interface CurtainService {
     void addCurtain(Curtain curtain);
     //删除窗帘
     void deleteCurtain(String cid);
+
+    List<Curtain> findAll(Integer page, Integer size);
+
+    List<Data_Curtain> findDetailByFid(Integer page, Integer size, String fid);
+
+    List<Curtain> findOtherCurtain(String user);
 }
