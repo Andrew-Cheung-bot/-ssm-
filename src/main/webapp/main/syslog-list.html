@@ -211,7 +211,13 @@
                     <!-- /.box-body -->
 
                     <!-- .box-footer-->
-                    <div id="box-footer"></div>
+                    <div id="box-footer">
+                        <div class="pull-left">
+                            <div class="form-group form-inline" id="box-footer1">
+
+                            </div>
+                        </div>
+                    </div>
                     <!-- /.box-footer-->
 
 
@@ -294,6 +300,10 @@
         {{/each}}
     </script>
 
+    <script type="text/html" id="taskTpl1">
+        <h3 style="font-family: Gotham-Book">总共{{pageInfo.pages}}页,共{{pageInfo.total}}条数据,当前页为{{pageInfo.pageNum}}</h3>
+    </script>
+
 
     <script>
         window.onload = function getUser() {
@@ -315,72 +325,81 @@
 
         }
 
-        var page = 1;
+        var first_page = 1;
+        var last_page = 1;
+        var previous_page = 1;
+        var next_page = 1;
 
         $(function () {
             $(".header").load("header.html");
             $(".aside").load("aside.html");
 
             $("#previous_page").click(function(){
-                $("#message_box").text("");
-                $("#next_page").removeAttr("disabled");
+                //用于存放任务列表的数组
                 var taskAry=[];
+                var footerAry=[];
+                //选择任务列表容器
                 var taskBox=$('#todo-list');
-                if(page == 1){
-                    $("#message_box").text("已到最新页!");
-                    $("#previous_page").attr('disabled',"true");
-                    return false;
-                }
-                page -=1;
+                var footerBox=$('#box-footer1');
                 $.post({
                     url:"../sysLog/findAll",
                     contentType: "application/x-www-form-urlencoded",
                     traditional: true, //traditional 为true阻止深度序列化
                     data:{
-                        page:page
+                        page:previous_page
                     },
                     success:function(data){
+                        previous_page = data.pageNum - 1;
+                        next_page = data.pageNum + 1;
+                        last_page = data.pages;
                         //将已存在的任务存储在taskAry变量中
                         taskAry=data.list;
+                        footerAry=data;
                         //将数据和html拼接好
                         var html=template('taskTpl',{
                             tasks:taskAry
                         });
+                        var html1=template('taskTpl1',{
+                            pageInfo:footerAry
+                        })
                         //将任务列表显示在页面中
                         taskBox.html(html);
-
+                        footerBox.html(html1)
                     }
                 })
             });
 
             $("#next_page").click(function(){
-                $("#previous_page").removeAttr("disabled");
-                $("#message_box").text("");
+                //用于存放任务列表的数组
                 var taskAry=[];
+                var footerAry=[];
+                //选择任务列表容器
                 var taskBox=$('#todo-list');
-                page +=1;
+                var footerBox=$('#box-footer1');
                 $.post({
                     url:"../sysLog/findAll",
                     contentType: "application/x-www-form-urlencoded",
                     traditional: true, //traditional 为true阻止深度序列化
                     data:{
-                        page:page
+                        page:next_page
                     },
                     success:function(data){
+                        previous_page = data.pageNum - 1;
+                        next_page = data.pageNum + 1;
+                        last_page = data.pages;
                         //将已存在的任务存储在taskAry变量中
                         taskAry=data.list;
+                        footerAry=data;
                         //将数据和html拼接好
                         var html=template('taskTpl',{
                             tasks:taskAry
                         });
+                        var html1=template('taskTpl1',{
+                            pageInfo:footerAry
+                        })
                         //将任务列表显示在页面中
                         taskBox.html(html);
-
-                        if(taskAry.length != 10){
-                            $("#message_box").text("已到最底页!");
-                            $("#next_page").attr('disabled',"true");
-                        }
-
+                        footerBox.html(html1)
                     }
                 })
             });
@@ -392,25 +411,32 @@
             var footerAry=[];
             //选择任务列表容器
             var taskBox=$('#todo-list');
-            var footerBox=$('#box-footer');
+            var footerBox=$('#box-footer1');
 
             $.post({
                 url:"../sysLog/findAll",
                 contentType: "application/x-www-form-urlencoded",
                 traditional: true, //traditional 为true阻止深度序列化
                 data:{
-                    page:page
+                    page:first_page
                 },
                 success:function(data){
+                    previous_page = data.pageNum - 1;
+                    next_page = data.pageNum + 1;
+                    last_page = data.pages;
                     //将已存在的任务存储在taskAry变量中
                     taskAry=data.list;
+                    footerAry=data;
                     //将数据和html拼接好
                     var html=template('taskTpl',{
                        tasks:taskAry
                     });
+                    var html1=template('taskTpl1',{
+                        pageInfo:footerAry
+                    })
                     //将任务列表显示在页面中
                    taskBox.html(html);
-
+                    footerBox.html(html1)
                 }
             })
         });

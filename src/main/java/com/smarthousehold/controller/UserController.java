@@ -361,6 +361,10 @@ public class UserController {
         String username = jsonObject.getString("username");
         String ids = jsonObject.getString("ids");
         String[] id=ids.split(",");
+        if (id.length == 1) {
+            id[0]=id[0].replace("[","").replace("]","");
+            id[0]=id[0].replace("\"","").replace("\"","");
+        }
         for(int i=0;i<id.length;i++){
             if(i==0){
                 id[i]=id[i].replace("[","");

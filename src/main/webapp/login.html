@@ -148,12 +148,10 @@
                         password:$("#password").val()
                     }),
                     success: function (data) {
-                        console.log(data)
                     },
                     complete:function (jqXHR) {
                         var url = "/ssm" +jqXHR.getResponseHeader("location")
-                        console.log(url)
-                        window.location.href=url
+                        $(window).attr('location',url)
                     }
                 });
             }

@@ -206,7 +206,7 @@ public class FanController {
         if(!fid.equals(null)){
             //在前台发送setCurtain的时候，服务器会自动发送数据到硬件
             Fan fan_information = fanService.getFan(parseObject.getString("fid"));
-            //-1表示此为删除
+            //4表示此为删除
             fan_information.setAction("4");
             String string_fan = JSON.parse(JSON.toJSONString(fan_information)).toString();
             MyWebSocketHandler send = new MyWebSocketHandler();

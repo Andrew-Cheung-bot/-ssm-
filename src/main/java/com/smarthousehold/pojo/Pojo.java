@@ -1,7 +1,7 @@
 package com.smarthousehold.pojo;
 
 public class Pojo {
-    //操作判断符(-1_delete,0_normal,1_add,2_modified)
+    //操作判断符(0_normal,1_add,2_modified_state,3_modified_StemandShumidity,4_delete)
     private String action;
     //设置pojo的开关状态
     private String state;
