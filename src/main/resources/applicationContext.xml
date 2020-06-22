@@ -33,7 +33,6 @@
 	  <property name="password">  
 	      <value>NewPassZCC</value>
 		  <!--<value>123456</value>-->
-		  <!--<value>admin</value>-->
 	  </property>  	
 	</bean>
 
