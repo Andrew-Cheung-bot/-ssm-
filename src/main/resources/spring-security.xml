@@ -15,7 +15,8 @@
     <http pattern="/User/activeUser*" security="none" />
     <http pattern="/User/loginUser" security="none" />
     <http pattern="/User/registUser*" security="none" />
-    <http pattern="/User/updateUser" security="none" />
+    <http pattern="/User/forgetPassword" security="none" />
+    <http pattern="/User/checkAndchange" security="none" />
     <http pattern="/user/**" security="none" />
     <http pattern="/static/**" security="none" />
     <http pattern="/checkCode*" security="none" />
@@ -50,6 +51,7 @@
         <intercept-url pattern="/Curtain/deleteCurtain" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/Fan/addFan" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/Fan/deleteFan" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/main/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <!--auto-config配置后，不需要在配置下面信息 <security:form-login /> 定义登录表单信息
         <security:http-basic /> <security:logout />-->

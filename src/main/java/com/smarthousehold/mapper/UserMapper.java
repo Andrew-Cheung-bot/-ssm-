@@ -20,6 +20,8 @@ public interface UserMapper {
 
     void updateUser(User user);
 
+    void updateforgetcode(User user);
+
     List<User> findAll();
 
     void delUserByUsername(String username);

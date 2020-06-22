@@ -2,6 +2,7 @@ package com.smarthousehold.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.mysql.jdbc.ResultSetImpl;
 import com.smarthousehold.pojo.*;
 import com.smarthousehold.service.UserService;
 import com.smarthousehold.util.pojo.ResultInfo;
@@ -154,6 +155,61 @@ public class UserController {
     }
 
     /**
+     * 忘记密码
+     * @param info
+     * return
+     */
+    @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
+    @ResponseBody
+    public String forgerPassword(@RequestBody String info){
+        JSONObject jo=new JSONObject();
+        JSONObject parseObject = jo.parseObject(info); //string转json类型
+
+        User user = new User();
+        System.out.println(parseObject.getString("username"));
+        user.setUsername(parseObject.getString("username"));
+
+        ResultInfo ri = new ResultInfo();
+        boolean flag = userService.forgetPassword(user);
+        if(flag){
+            ri.setFlag(true);
+        }else {
+            ri.setFlag(false);
+            ri.setErrorMsg("username does not exist!");
+        }
+        String json = JSON.toJSONString(ri);
+        return json;
+    }
+
+    /**
+     * 校验验证码并修改密码(用于忘记密码)
+     * @param info
+     * return
+     */
+    @RequestMapping(value = "/checkAndchange",method = RequestMethod.POST)
+    @ResponseBody
+    public String check(@RequestBody String info){
+        JSONObject jo=new JSONObject();
+        JSONObject parseObject = jo.parseObject(info); //string转json类型
+
+        ResultInfo ri = new ResultInfo();
+
+        User user = userService.findByUsername(parseObject.getString("username"));
+        user.setPassword(parseObject.getString("changepassword"));
+        if(parseObject.getString("checkcode").equals(user.getForgetcode())){
+            //验证码正确则更新密码
+            ri.setFlag(userService.update(user));
+        }else{
+            ri.setFlag(false);
+            ri.setErrorMsg("checkCode error");
+        }
+
+        String json = JSON.toJSONString(ri);
+        return json;
+    }
+
+
+    /**
      * 激活
      * @param code
      * @return
@@ -176,6 +232,8 @@ public class UserController {
         }
         return msg;
     }
+
+
 
     /**
      * 登录

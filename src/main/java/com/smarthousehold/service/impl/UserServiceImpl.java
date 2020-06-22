@@ -62,6 +62,31 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 忘记用户密码
+     * @return
+     */
+    @Override
+    public boolean forgetPassword(User user){
+        User u = null;
+        u = userMapper.findByUsername(user.getUsername());
+        //判断数据库中是否存在用户名
+        if(u==null){
+            //用户名不存在，修改失败
+            return false;
+        }
+
+        Integer randNum = (int)(Math.random()* (999999)+1);//生成(0,999999]之间的随机数
+        String workPassword = String.format("%06d",randNum);//进行六位数补全
+        u.setForgetcode(workPassword);
+        userMapper.updateforgetcode(u);
+
+        String context = "当前用户名为"+user.getUsername()+"的用户，修改密码的验证码为"+workPassword;
+        MailUtils.sendMail(u.getEmail(),context,"验证邮件");
+        return true;
+    }
+
+
+    /**
      * 修改用户密码
      * @param user
      * @return
@@ -71,8 +96,8 @@ public class UserServiceImpl implements UserService {
         User u=null;
         u=userMapper.findByUsername(user.getUsername());
         //判断数据库中是否存在用户名
-        if(u!=null){
-            //用户名存在，修改失败
+        if(u==null){
+            //用户名不存在，修改失败
             return false;
         }
         //使用bcrypt加密

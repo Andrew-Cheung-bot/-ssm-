@@ -13,6 +13,9 @@
     <update id="updateUser" parameterType="com.smarthousehold.pojo.User">
         update user_ set password=#{password} where  username=#{username}
     </update>
+    <update id="updateforgetcode" parameterType="com.smarthousehold.pojo.User">
+        update user_ set forgetcode = #{forgetcode} where username=#{username}
+    </update>
     <select id="findByCode" resultType="User">
         select * from user_ where code=#{code}
     </select>

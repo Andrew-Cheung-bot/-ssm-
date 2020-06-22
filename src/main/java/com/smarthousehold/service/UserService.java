@@ -14,6 +14,8 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     boolean regist(User user);
 
+    boolean forgetPassword(User user);
+
     boolean active(String code);
 
     boolean update(User user);

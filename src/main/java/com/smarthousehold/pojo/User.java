@@ -12,7 +12,17 @@ public class User {
     //激活状态，Y代表激活，N代表未激活
     private String code;
     //激活码（要求唯一）
+    private String forgetcode;
+    //忘记密码验证码(不要求唯一，只要求6位整数)
     private String rolename;
+
+    public String getForgetcode() {
+        return forgetcode;
+    }
+
+    public void setForgetcode(String forgetcode) {
+        this.forgetcode = forgetcode;
+    }
 
     public String getEmail() {
         return email;
