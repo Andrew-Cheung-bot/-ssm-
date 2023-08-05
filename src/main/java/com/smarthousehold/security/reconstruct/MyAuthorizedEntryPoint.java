@@ -1,5 +1,6 @@
 package com.smarthousehold.security.reconstruct;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 

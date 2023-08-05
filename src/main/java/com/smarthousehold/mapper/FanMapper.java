@@ -3,11 +3,13 @@ package com.smarthousehold.mapper;
 import com.smarthousehold.pojo.Curtain;
 import com.smarthousehold.pojo.Fan;
 import com.smarthousehold.pojo.Data_Fan;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.lang.String;
 import java.util.Map;
 
+@Repository
 public interface FanMapper {
     //添加某时刻温湿度的数据
     void addFanData(Data_Fan data_fan);

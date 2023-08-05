@@ -2,11 +2,13 @@ package com.smarthousehold.mapper;
 
 import com.smarthousehold.pojo.Curtain;
 import com.smarthousehold.pojo.Data_Curtain;
+import org.springframework.stereotype.Repository;
 
 import java.lang.String;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface CurtainMapper {
     //添加某时刻温湿度的数据
     void addCurtainData(Data_Curtain  data_curtain);

@@ -1,4 +1,4 @@
-# Smart-Household-Appliance
+# 智能家具系统 Smart Home
 ![](https://img.shields.io/badge/JDK-JDK1.8-brightgreen) 
 ![](https://img.shields.io/badge/Spring-v4.3.2-brightgreen)
 ![](https://img.shields.io/badge/Maven-v3.6.1-brightgreen)
@@ -6,21 +6,17 @@
 ![](https://img.shields.io/badge/Tomcat-v7.0.103-blue)
 ![](https://img.shields.io/badge/Author-Andrew%20Cheung-lightgrey)
 
-#### 介绍
-DGUT smart-household-appliance
+# Introduction
+- 本项目根据数据采集、数据传输、数据处理以及数据应用四个方面
+- 硬件端采用较为成熟，具有固件库编程较为便利的嵌入式微处理器STM32F103，而硬件通信采用了ESP8266（一款串口转无线模芯片，内部自带固件，用户操作简单，无需编写时序信号等）；云服务器采用腾讯云（后续有可能会迁移到AWS云），有较好的服务设置。
+- 前端由网页端（使用Bootstrap框架构建界面，使用AJAX与后台数据交互）与微信小程序开发组成
+- 后端基于SSM框架开发（SpringMVC+Spring+Mybatis），数据格式使用json
 
-#### 软件架构
-本项目基于SSM框架，使用WebSocket通信协议与硬件端进行实时连接，前端与后端通过Http协议进行数据交互，后台管理Web端通过Ajax与后台进行异步信息交互，Web端采用Html+Ajax来代替SSM框架中默认使用的Jsp页面。
-
-
-#### 安装教程
-
-1.  clone本项目到本地
-2.  通过Maven构建war包
-3.  登陆服务器的tomcat进行部署
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 项目技术结构
+- maven
+- Spring（使用aop和声名式事务处理）
+- SpringMVC
+- Mybatis
+- SpringSecurity校验权限
+- Bootstrap，chartjs开发前端页面
+- WebSocket与硬件端实时通信

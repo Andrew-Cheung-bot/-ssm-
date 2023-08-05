@@ -2,6 +2,7 @@ package com.smarthousehold.mapper;
 
 import com.smarthousehold.pojo.User;
 import com.smarthousehold.pojo.UserInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @Auther:胡坚涛
  * @Data:2020/05/25/21:11
  */
+@Repository
 public interface UserMapper {
     User findByUsername(String username);
 
